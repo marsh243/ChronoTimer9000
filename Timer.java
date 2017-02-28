@@ -1,121 +1,55 @@
+//test push
 import java.util.*;
 
 public class Timer {
 
-	LinkedList runTimes;
-
-	public Timer()
-	{
-		runTimes = new LinkedList();
-		runTimes.Start = new Node();//dummy
-		runTimes.LastFinishTime= null;
-		runTimes.Current=runTimes.Start;
-		runTimes.Trailer=runTimes.Current;
-	}
+	LinkedList runTimes = new LinkedList();
+	212
+	cash=new cash
 	
-	public long[] getRunTimes()
-	{
-		Node currentRacer = new Node();
-		runTimes.Start.nextLink=currentRacer;
-		long[] runners= new long[runTimes.Size];
-		for(int i = 0; i <runTimes.Size; i++){
-			if(currentRacer.EndTime!=-1)
-			{
-				runners[i]=(currentRacer.EndTime - currentRacer.StartTime);
-			}
-			else
-			{
-				runners[i]=-1;
-			}
-			currentRacer=currentRacer.nextLink;
-		}
-		return runners;
-		
-	}
 	
-	public long entireRaceTime()
-	{
-		return (runTimes.LastFinishTime.EndTime - runTimes.Start.nextLink.StartTime);
-	}
-	
-	public void start()
-	{
-		Node start = new Node();
-		runTimes.Current.nextLink = start;
-		runTimes.Current = start;
-		start.StartTime = (long)System.currentTimeMillis();
-		runTimes.Size++;
-		
-	}
-	public void finish(Node Start)
-	{
-		runTimes.Current.EndTime=(long)System.currentTimeMillis();
-		runTimes.LastFinishTime=runTimes.Current;
-		runTimes.Trailer = runTimes.Current;
-	}
-	
-	public void DNF()
-	{
-		runTimes.Current.EndTime=-1;
-		runTimes.Trailer = runTimes.Current;
-		runTimes.Size++;
-	}
-	
-	public void cancel()
-	{
-		runTimes.Current =runTimes.Trailer;
-		runTimes.Current.nextLink=null;
-		runTimes.Size--;
-	}
 	class Node{
-		public long StartTime;
-		public long EndTime;
-		public Node nextLink;
+		public int StartTime;
+		public int EndTime;
+		private Node link;
 		
-		//constructor
-		public Node(){
-			nextLink = null;
-			StartTime=0;
+		//construct
+		public node(){
+			link = null;
+			StartTIme=0;
 			EndTime=-1;
 		}
 		
-		public Node(long s, long e, Node l)
-		{
+		public Node(int s, int e, Node l){
 			StartTime=s;
-			EndTime = e;
-			nextLink=null;
+			EndTime=e;
+			link=l;
 		}
 		
-		public void setLink(Node n){
-			nextLink=n;
+		public void setLink(Node N){
+			link=l
 		}
 		
 		public Node getLink(){
-			return nextLink;
+			return link;
 		}
 		
-		public long getStartTime(){
+		public int getStartTime(){
 			return StartTime;
 		}
 		
-		public long getEndTime(){
+		public int getEndTime(){
 			return EndTime;
 		}
-		
 	}//end Node class
 	
 	class LinkedList{
-		Node Current;
 		Node Start;
 		Node LastFinishTime;
-		Node Trailer;
-		int Size;
 		
-		public LinkedList(){
-			Start = null;
-			LastFinishTime = null;
-			Current = null;
-			Size = 0; 
+		public linkedList(){
+			start=null;
+			end=null;
 		}
 		
 		public boolean isEmpty(){
