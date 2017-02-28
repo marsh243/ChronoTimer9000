@@ -1,9 +1,15 @@
 
 public class Athlete {
-	private String name, time
+	private String name;
+	String time;
 	public Athlete(String name, time){
 		this.name = name;
 		this.time = time;
+	}
+	
+	public Athlete(String name){
+		this.name = name;
+		this.time = "";
 	}
 	
 	public String getName(){
@@ -12,6 +18,10 @@ public class Athlete {
 	
 	public String getTime(){
 		return this.time;
+	}
+	
+	public void setTime(String time){
+		this.time = time;
 	}
 	
 	public void toString(){
