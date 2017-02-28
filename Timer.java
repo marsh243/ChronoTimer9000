@@ -84,8 +84,17 @@ public class Timer {
 	
 	public void cancel()
 	{
-		runTimes.currentStart = runTimes.trailer;
-		runTimes.currentStart.nextLink = null;
+		if(runTimes.trailer.nextLink.nextLink != null)
+		{
+			runTimes.trailer.nextLink = runTimes.trailer.nextLink.nextLink;
+		}
+		else
+		{
+			runTimes.trailer.nextLink = null;
+			runTimes.currentStart = runTimes.trailer;
+		}
+		//runTimes.trailer = runTimes.currentFinish;
+		//runTimes.currentStart.nextLink = null;
 		runTimes.size--;
 	}
 	
