@@ -123,6 +123,7 @@ public class ChronoTimer {
 		if (power)
 		{
 			for(int i=0; i<eventLog.size(); i++){
+				System.out.println(runners.get(i).getName() + " ");
 				System.out.println(eventLog.get(i));
 			}
 		}
