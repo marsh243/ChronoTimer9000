@@ -171,6 +171,10 @@ public class Simulator {
 					{
 						ct.print();
 					}
+					else if(input.matches("WAIT \\d+"))
+					{
+						Thread.sleep(Integer.parseInt(input.replace("WAIT ", "")));
+					}
 					else
 					{
 						System.out.println("Command not recognized\nAborting...");

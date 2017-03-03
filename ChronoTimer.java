@@ -70,6 +70,7 @@ public class ChronoTimer {
 			}
 			else if (i == 2 && numFinished < runners.size())
 			{
+				numFinished++;
 				eventLog.add(timer.finish());
 			}
 		}
