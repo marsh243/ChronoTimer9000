@@ -2,7 +2,7 @@
 public class Athlete {
 	private String name;
 	String time;
-	public Athlete(String name, time){
+	public Athlete(String name, int time){
 		this.name = name;
 		this.time = time;
 	}
