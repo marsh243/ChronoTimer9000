@@ -41,13 +41,14 @@ public class Simulator {
 					{
 						ct.reset();
 					}
-					else if(input.matches("^TIME$"))
+					else if(input.matches("^TIME \\d{0,1}:\\d{0,1}:\\d{0,1}$"))
 					{
-
+						String[] t = input.replace("TIME ", "").split(":");
+						ct.time( Integer.parseInt(t[0]) , Integer.parseInt(t[1]) , Integer.parseInt(t[2]) );
 					}
 					else if(input.matches("^DNF$"))
 					{
-
+						
 					}
 					else if(input.matches("CANCEL"))
 					{

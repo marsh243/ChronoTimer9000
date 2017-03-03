@@ -10,6 +10,7 @@ public class ChronoTimer {
 	private Timer timer;
 	private LinkedList<Athlete> runners;
 	private Modes mode;
+	private String time;
 	
 	public ChronoTimer()
 	{
@@ -29,18 +30,27 @@ public class ChronoTimer {
 		}
 		else
 		{
-			new ChronoTimer();
+			this.power = true;
+			this.printer = false;
+			this.eventLog = new ArrayList<String>();
+			this.timer = new Timer();
+			this.runners = new LinkedList<Athlete>();
+			channels = new boolean[8];
+			mode = Modes.NONE;
 		}
 	}
 	
 	public void toggle(int i)
 	{
-		channels[i-1] = !channels[i-1];
+		if (power)
+		{
+			channels[i-1] = !channels[i-1];
+		}
 	}
 	
 	public void trigger(int i)
 	{
-		if (raceInProgress)
+		if (raceInProgress && power)
 		{
 			if (i == 1)
 			{
@@ -55,31 +65,57 @@ public class ChronoTimer {
 	
 	public void addRacer(String str)
 	{
-		if(raceInProgress)
+		if(raceInProgress && power)
 			this.runners.add(new Athlete(str));
 	}
 	
 	public void newRun()
 	{
-		this.runners = new LinkedList<Athlete>();
-		this.raceInProgress = true;
+		if (power)
+		{
+			this.runners = new LinkedList<Athlete>();
+			this.raceInProgress = true;
+		}
 	}
 	
 	public void endRun()
 	{
-		this.raceInProgress = false;
+		if (power)
+		{
+			this.raceInProgress = false;
+		}
 	}
 	
 	public void print()
 	{
-		for(int i=0; i<eventLog.size(); i++){
-			System.out.println(eventLog.get(i));
+		if (power)
+		{
+			for(int i=0; i<eventLog.size(); i++){
+				System.out.println(eventLog.get(i));
+			}
 		}
 	}
 	
 	public void reset()
 	{
-		
+		if (power)
+		{
+			this.power = true;
+			this.printer = false;
+			this.eventLog = new ArrayList<String>();
+			this.timer = new Timer();
+			this.runners = new LinkedList<Athlete>();
+			channels = new boolean[8];
+			mode = Modes.NONE;
+		}
+	}
+	
+	public void time (int h, int m, int s)
+	{
+		if (power)
+		{
+			this.time = "" + h + ";" + m + ":" + s;
+		}
 	}
 	
 	public void exit()
