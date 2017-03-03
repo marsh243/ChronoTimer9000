@@ -48,11 +48,11 @@ public class Simulator {
 					}
 					else if(input.matches("^DNF$"))
 					{
-						
+						ct.dnf();
 					}
 					else if(input.matches("CANCEL"))
 					{
-
+						ct.cancel();
 					}
 					else if(input.matches("TOG \\d{1}"))
 					{
@@ -64,11 +64,34 @@ public class Simulator {
 					}
 					else if(input.matches("START"))
 					{
-
+						ct.trigger(1);
 					}
 					else if(input.matches("FINISH"))
 					{
-
+						ct.trigger(2);
+					}
+					else if(input.matches("EVENT \\w{3,6}"))
+					{
+						if (input.matches("EVENT IND"))
+						{
+							ct.setMode(Modes.IND);
+						}
+					}
+					else if(input.matches("NEWRUN"))
+					{
+						ct.newRun();
+					}
+					else if(input.matches("ENDRUN"))
+					{
+						ct.endRun();
+					}
+					else if(input.matches("NUM \\d+"))
+					{
+						ct.addRacer(input.replace("NUM ", ""));
+					}
+					else if (input.matches("PRINT"))
+					{
+						ct.print();
 					}
 					else
 					{
@@ -80,35 +103,37 @@ public class Simulator {
 		{
 			try {
 				reader = new BufferedReader(new FileReader("transactions.txt"));
-				String command = "";
+				String intput = "";
 				while(reader.ready()){
-					command = reader.readLine();
-					System.out.println(command);
+					input = reader.readLine();
+					System.out.println(">> " + input);
+					input = p.nextLine();
 					System.out.print(">> ");
 					input = p.nextLine();
 					if(input.matches("^POWER$")) 
 					{
-						
+						ct.power();
 					}
 					else if(input.matches("EXIT"))
 					{
-						
+						ct.exit();
 					}
 					else if(input.matches("^RESET$"))
 					{
-
+						ct.reset();
 					}
-					else if(input.matches("^TIME$"))
+					else if(input.matches("^TIME \\d{0,1}:\\d{0,1}:\\d{0,1}$"))
 					{
-
+						String[] t = input.replace("TIME ", "").split(":");
+						ct.time( Integer.parseInt(t[0]) , Integer.parseInt(t[1]) , Integer.parseInt(t[2]) );
 					}
 					else if(input.matches("^DNF$"))
 					{
-
+						ct.dnf();
 					}
 					else if(input.matches("CANCEL"))
 					{
-
+						ct.cancel();
 					}
 					else if(input.matches("TOG \\d{1}"))
 					{
@@ -120,11 +145,34 @@ public class Simulator {
 					}
 					else if(input.matches("START"))
 					{
-
+						ct.trigger(1);
 					}
 					else if(input.matches("FINISH"))
 					{
-
+						ct.trigger(2);
+					}
+					else if(input.matches("EVENT \\w{3,6}"))
+					{
+						if (input.matches("EVENT IND"))
+						{
+							ct.setMode(Modes.IND);
+						}
+					}
+					else if(input.matches("NEWRUN"))
+					{
+						ct.newRun();
+					}
+					else if(input.matches("ENDRUN"))
+					{
+						ct.endRun();
+					}
+					else if(input.matches("NUM \\d+"))
+					{
+						ct.addRacer(input.replace("NUM ", ""));
+					}
+					else if (input.matches("PRINT"))
+					{
+						ct.print();
 					}
 					else
 					{

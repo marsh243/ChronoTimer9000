@@ -11,6 +11,9 @@ public class ChronoTimer {
 	private LinkedList<Athlete> runners;
 	private Modes mode;
 	private String time;
+	private int numStarted;
+	private int numFinished;
+	
 	
 	public ChronoTimer()
 	{
@@ -21,7 +24,10 @@ public class ChronoTimer {
 		this.runners = new LinkedList<Athlete>();
 		channels = new boolean[8];
 		mode = Modes.NONE;
+		numStarted = 0;
+		numFinished = 0;
 	}
+	
 	public void power()
 	{
 		if(power == false)
@@ -40,6 +46,11 @@ public class ChronoTimer {
 		}
 	}
 	
+	public void setMode(Modes m)
+	{
+		this.mode = m;
+	}
+	
 	public void toggle(int i)
 	{
 		if (power)
@@ -54,12 +65,32 @@ public class ChronoTimer {
 		{
 			if (i == 1)
 			{
+				numStarted++;
 				timer.start();
 			}
 			else if (i == 2)
 			{
 				eventLog.add(timer.finish());
 			}
+		}
+	}
+	
+	public void dnf()
+	{
+		if (power && raceInProgress)
+		{
+			numFinished++;
+			timer.DNF();
+		}
+	}
+	
+	public void cancel()
+	{
+		if(power && raceInProgress)
+		{
+			numStarted--;
+			Athlete temp = runners.remove(numStarted);
+			runners.add(numFinished, temp);
 		}
 	}
 	
