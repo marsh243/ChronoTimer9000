@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
@@ -30,15 +31,15 @@ public class Simulator {
 					input = p.nextLine();
 					if(input.matches("^POWER$")) 
 					{
-						
+						ct.power();
 					}
 					else if(input.matches("EXIT"))
 					{
-						
+						ct.exit();
 					}
 					else if(input.matches("^RESET$"))
 					{
-
+						ct.reset();
 					}
 					else if(input.matches("^TIME$"))
 					{

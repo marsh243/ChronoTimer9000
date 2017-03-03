@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 public class ChronoTimer {
@@ -8,6 +9,7 @@ public class ChronoTimer {
 	private boolean raceInProgress;
 	private Timer timer;
 	private LinkedList<Athlete> runners;
+	private Modes mode;
 	
 	public ChronoTimer()
 	{
@@ -17,6 +19,7 @@ public class ChronoTimer {
 		this.timer = new Timer();
 		this.runners = new LinkedList<Athlete>();
 		channels = new boolean[8];
+		mode = Modes.NONE;
 	}
 	public void power()
 	{
@@ -72,6 +75,11 @@ public class ChronoTimer {
 		for(int i=0; i<eventLog.size(); i++){
 			System.out.println(eventLog.get(i));
 		}
+	}
+	
+	public void reset()
+	{
+		
 	}
 	
 	public void exit()
