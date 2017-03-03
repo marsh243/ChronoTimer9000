@@ -82,6 +82,7 @@ public class ChronoTimer {
 		{
 			numFinished++;
 			timer.DNF();
+			eventLog.add("DNF");
 		}
 	}
 	
