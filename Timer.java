@@ -2,7 +2,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 public class Timer {
 	//create arrays for channels 
-	LinkedList runTimes;   
+	LinkedList runTimes;   //
 	
 	public Timer()
 	{
