@@ -12,8 +12,6 @@ public class ChronoTimer {
 		this.printer = false;
 		this.eventLog = new ArrayList<String>();
 		this.timer = new Timer();
-		this.racer = new Athlete();
-		
 	}
 	public void power()
 	{

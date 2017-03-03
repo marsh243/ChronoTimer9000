@@ -1,11 +1,10 @@
-package lab05;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 public class Simulator {
 	
-	private CashDispenser CD;
+
 	private static BufferedReader reader;
 	
 	public static void main(String[] args)
@@ -33,7 +32,7 @@ public class Simulator {
 					{
 						
 					}
-					else if(input.equals("EXIT"))
+					else if(input.matches("EXIT"))
 					{
 						
 					}
@@ -49,23 +48,23 @@ public class Simulator {
 					{
 
 					}
-					else if(input.equals("CANCEL"))
+					else if(input.matches("CANCEL"))
 					{
 
 					}
-					else if(input.equals("TOG \\d{1}"))
+					else if(input.matches("TOG \\d{1}"))
 					{
 						ct.toggle(Integer.parseInt(input.replace("TOG ", "")));
 					}
-					else if(input.equals("TRIG \\d{1}"))
+					else if(input.matches("TRIG \\d{1}"))
 					{
 						ct.trigger(Integer.parseInt(input.replace("TRIG ", "")));
 					}
-					else if(input.equals("START"))
+					else if(input.matches("START"))
 					{
 
 					}
-					else if(input.equals("FINISH"))
+					else if(input.matches("FINISH"))
 					{
 
 					}
@@ -89,7 +88,7 @@ public class Simulator {
 					{
 						
 					}
-					else if(input.equals("EXIT"))
+					else if(input.matches("EXIT"))
 					{
 						
 					}
@@ -105,23 +104,23 @@ public class Simulator {
 					{
 
 					}
-					else if(input.equals("CANCEL"))
+					else if(input.matches("CANCEL"))
 					{
 
 					}
-					else if(input.equals("TOG \\d{1}"))
+					else if(input.matches("TOG \\d{1}"))
 					{
 						ct.toggle(Integer.parseInt(input.replace("TOG ", "")));
 					}
-					else if(input.equals("TRIG \\d{1}"))
+					else if(input.matches("TRIG \\d{1}"))
 					{
 						ct.trigger(Integer.parseInt(input.replace("TRIG ", "")));
 					}
-					else if(input.equals("START"))
+					else if(input.matches("START"))
 					{
 
 					}
-					else if(input.equals("FINISH"))
+					else if(input.matches("FINISH"))
 					{
 
 					}

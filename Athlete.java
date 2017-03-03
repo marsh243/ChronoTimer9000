@@ -2,7 +2,7 @@
 public class Athlete {
 	private String name;
 	String time;
-	public Athlete(String name, int time){
+	public Athlete(String name, String time){
 		this.name = name;
 		this.time = time;
 	}
@@ -24,7 +24,7 @@ public class Athlete {
 		this.time = time;
 	}
 	
-	public void toString(){
-		System.out.println(name+"\n"+time);
+	public String toString(){
+		return (name+"\n"+time);
 	}
 }
