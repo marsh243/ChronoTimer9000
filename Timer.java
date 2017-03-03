@@ -68,12 +68,13 @@ public class Timer {
 		runTimes.size++;
 	}
 	
-	public void finish()
+	public String finish()
 	{
 		runTimes.currentFinish.nextLink.EndTime = System.currentTimeMillis();
 		runTimes.currentFinish = runTimes.currentFinish.nextLink;
 		runTimes.LastFinishTime = runTimes.currentFinish;
 		runTimes.trailer = runTimes.currentFinish;
+		return convert(runTimes.currentFinish);
 	}
 	
 	public void DNF()
@@ -97,6 +98,21 @@ public class Timer {
 		//runTimes.trailer = runTimes.currentFinish;
 		//runTimes.currentStart.nextLink = null;
 		runTimes.size--;
+	}
+	
+	public String convert(Node currentRacer)
+	{
+		long runTime = 0;
+		int hours;
+		int min;
+		int sec;
+		int hundreths;
+		runTime = currentRacer.EndTime - currentRacer.StartTime;
+		hours = (int)runTime/3600000;
+		min = (int)(runTime%3600000)/60000;
+		sec = (int)((runTime%60000)/1000);
+		hundreths = (int)(runTime%1000)/10;
+		return (hours + ":" + min + ":" + sec + "." + hundreths);
 	}
 	
 	      class Node

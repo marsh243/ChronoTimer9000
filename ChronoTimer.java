@@ -58,7 +58,7 @@ public class ChronoTimer {
 			}
 			else if (i == 2)
 			{
-				timer.finish();
+				eventLog.add(timer.finish());
 			}
 		}
 	}
