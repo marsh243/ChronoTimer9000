@@ -1,15 +1,19 @@
-
+import java.util.ArrayList;
 public class ChronoTimer {
 	
-	private boolean power;
+	private boolean power, printer;
+	private ArrayList<String> eventLog;
 	private Timer timer;
 	private Athlete racer;
 	
 	public ChronoTimer()
 	{
 		this.power = false;
+		this.printer = false;
+		this.eventLog = new ArrayList<String>();
 		this.timer = new Timer();
 		this.racer = new Athlete();
+		
 	}
 	public void power()
 	{
@@ -48,9 +52,14 @@ public class ChronoTimer {
 		
 	}
 	
-	public void print()
+	public void print(String str)
 	{
-		
+		if(!printer){
+			//do nothing
+		}
+		else {
+			System.out.println(str);
+		}
 	}
 	
 	public void exit()
