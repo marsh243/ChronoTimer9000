@@ -102,14 +102,11 @@ public class Simulator {
 		else
 		{
 			try {
-				reader = new BufferedReader(new FileReader("transactions.txt"));
-				String intput = "";
+				System.out.print("Enter name of textfile: \n>>");
+				reader = new BufferedReader(new FileReader(p.nextLine()));
 				while(reader.ready()){
 					input = reader.readLine();
 					System.out.println(">> " + input);
-					input = p.nextLine();
-					System.out.print(">> ");
-					input = p.nextLine();
 					if(input.matches("^POWER$")) 
 					{
 						ct.power();

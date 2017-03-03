@@ -63,12 +63,12 @@ public class ChronoTimer {
 	{
 		if (raceInProgress && power)
 		{
-			if (i == 1)
+			if (i == 1 && numStarted < runners.size())
 			{
 				numStarted++;
 				timer.start();
 			}
-			else if (i == 2)
+			else if (i == 2 && numFinished < runners.size())
 			{
 				numFinished++;
 				timer.finish();
@@ -78,7 +78,7 @@ public class ChronoTimer {
 	
 	public void dnf()
 	{
-		if (power && raceInProgress)
+		if (power && raceInProgress && numFinished < runners.size())
 		{
 			numFinished++;
 			timer.DNF();
