@@ -76,6 +76,10 @@ public class Simulator {
 						{
 							ct.setMode(Modes.IND);
 						}
+						else if (input.matches("EVENT PARIND"))
+						{
+							ct.setMode(Modes.PARIND);
+						}
 					}
 					else if(input.matches("NEWRUN"))
 					{
