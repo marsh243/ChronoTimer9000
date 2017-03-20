@@ -13,6 +13,7 @@ public class ChronoTimer {
 	private Timer parTimer1;//channel 1 timer for PARIND
 	private Timer parTimer2;//channel 3 timer for PARIND
 	private LinkedList<Athlete> runners;
+	private LinkedList<Athlete> currentlyRunning;//All the current racers
 	private LinkedList<Athlete> currentlyRunning1;//takes racers when trigger 1 is pushed
 	private LinkedList<Athlete> currentlyRunning2;//takes racers when trigger 3 is pushed
 	private LinkedList<Athlete> finishedRunners;//Used for PARIND and adds runners to the linked list when trig 2 or 4 is pushed
@@ -22,6 +23,7 @@ public class ChronoTimer {
 	private int numFinished;
 	private int numRunners;//counts number of runners added to the runners queue used for Mode PARIND
 	private int runnerIndex;//used to keep track of what index was/is used in the runners linked list
+	private int channelNextToFinish;//TO DO: need to keep track of the next racer that is next to finish for cancel & DNF
 	
 	
 	public ChronoTimer()
@@ -33,9 +35,12 @@ public class ChronoTimer {
 		this.parTimer1 = new Timer();
 		this.parTimer2 = new Timer();
 		this.runners = new LinkedList<Athlete>();
+		this.currentlyRunning = new LinkedList<Athlete>();
 		this.currentlyRunning1 = new LinkedList<Athlete>();
 		this.currentlyRunning2 = new LinkedList<Athlete>();
 		this.finishedRunners = new LinkedList<Athlete>();
+		this.channelNextToFinish = 0;
+		
 		channels = new boolean[8];
 		mode = Modes.NONE;
 		numStarted = 0;
@@ -59,9 +64,12 @@ public class ChronoTimer {
 			this.parTimer1 = new Timer();
 			this.parTimer2 = new Timer();
 			this.runners = new LinkedList<Athlete>();
+			this.currentlyRunning = new LinkedList<Athlete>();
 			this.currentlyRunning1 = new LinkedList<Athlete>();
 			this.currentlyRunning2 = new LinkedList<Athlete>();
 			this.finishedRunners = new LinkedList<Athlete>();
+
+			this.channelNextToFinish = 0;
 			channels = new boolean[8];
 			mode = Modes.NONE;
 		}
@@ -82,53 +90,70 @@ public class ChronoTimer {
 	
 	public void trigger(int i)
 	{
-		if (raceInProgress && power)
+		if(channels[i -1] == true)
 		{
-			if(mode == Modes.IND)
+			if (raceInProgress && power)
 			{
-				if ((i == 1) && numStarted < runners.size())
+				if(mode == Modes.IND)
 				{
-					numStarted++;
-					indtimer.start();
+					if ((i == 1) && numStarted < runners.size())
+					{
+						numStarted++;
+						indtimer.start();
+					}
+					else if ((i == 2) && numFinished < runners.size())
+					{
+						numFinished++;
+						eventLog.add(indtimer.finish());
+					}
 				}
-				else if ((i == 2) && numFinished < runners.size())
+				else if(mode == Modes.PARIND)
 				{
-					numFinished++;
-					eventLog.add(indtimer.finish());
+						if ((i == 1) && numStarted < numRunners)
+						{
+								numStarted++;
+								currentlyRunning.add(runners.get(runnerIndex));
+								currentlyRunning1.add(runners.get(runnerIndex));
+								parTimer1.start();
+								runnerIndex = findNextRunner(runners.get(runnerIndex));
+						}
+						else if ((i == 3) && numStarted < numRunners)
+						{
+								numStarted++;
+								currentlyRunning.add(runners.get(runnerIndex));
+								currentlyRunning2.add(runners.get(runnerIndex));
+								parTimer2.start();
+								runnerIndex = findNextRunner(runners.get(runnerIndex));	
+						}
+						//If there is more than one racer active, the finish event is associated with racers in a FIFO basis.
+						else if(i == 2 && numFinished < numRunners)
+						{
+							numFinished++;
+							if(currentlyRunning.contains(currentlyRunning1.getFirst()))
+							{
+								currentlyRunning.remove(currentlyRunning1.getFirst());
+							}
+							finishedRunners.add(currentlyRunning1.removeFirst());
+							finishedRunners.getLast().setTime(parTimer1.finish());
+							eventLog.add(finishedRunners.getLast().getTime());
+						}
+						else if(i == 4 && numFinished < numRunners)
+						{
+							numFinished++;
+							if(currentlyRunning.contains(currentlyRunning2.getFirst()))
+							{
+								currentlyRunning.remove(currentlyRunning2.getFirst());
+							}
+							finishedRunners.add(currentlyRunning2.removeFirst());
+							finishedRunners.getLast().setTime(parTimer2.finish());
+							eventLog.add(finishedRunners.getLast().getTime());
+						}
 				}
 			}
-			else if(mode == Modes.PARIND)
-			{
-				if ((i == 1) && numStarted < numRunners)
-				{
-					numStarted++;
-					currentlyRunning1.add(runners.get(runnerIndex));
-					parTimer1.start();
-					runnerIndex++;
-				}
-				else if ((i == 3) && numStarted < numRunners)
-				{
-					numStarted++;
-					currentlyRunning2.add(runners.get(runnerIndex));
-					parTimer2.start();
-					runnerIndex++;
-				}
-				//If there is more than one racer active, the finish event is associated with racers in a FIFO basis.
-				else if(i == 2 && numFinished < numRunners)
-				{
-					numFinished++;
-					finishedRunners.add(currentlyRunning1.removeFirst());
-					finishedRunners.getLast().setTime(parTimer1.finish());//need to associate a time with each runner once they are finished
-					eventLog.add(finishedRunners.getLast().getTime());
-				}
-				else if(i == 4 && numFinished < numRunners)
-				{
-					numFinished++;
-					finishedRunners.add(currentlyRunning2.removeFirst());
-					finishedRunners.getLast().setTime(parTimer2.finish());
-					eventLog.add(finishedRunners.getLast().getTime());
-				}
-			}
+		}
+		else
+		{
+			System.out.println("channel " + i + " is not active");
 		}
 	}
 	
@@ -142,21 +167,23 @@ public class ChronoTimer {
 		}
 		else if(power && raceInProgress && numFinished < numRunners && mode == Modes.PARIND)
 		{
-			if(currentlyRunning1.contains(runners.get(runnerIndex - 1)))
+			if(currentlyRunning1.contains(currentlyRunning.getFirst()))
 			{
 				numFinished++;
 				finishedRunners.add(currentlyRunning1.removeFirst());
+				parTimer1.DNF();
 				finishedRunners.getLast().setTime("DNF");
 				eventLog.add(finishedRunners.getLast().getTime());
 			}
-			else if(currentlyRunning2.contains(runners.get(runnerIndex - 1)))
+			else if(currentlyRunning2.contains(currentlyRunning.getFirst()))
 			{
 				numFinished++;
 				finishedRunners.add(currentlyRunning2.removeFirst());
+				parTimer2.DNF();
 				finishedRunners.getLast().setTime("DNF");
 				eventLog.add(finishedRunners.getLast().getTime());
 			}
-		}
+		}	
 	}
 	
 	public void cancel()
@@ -169,19 +196,21 @@ public class ChronoTimer {
 		}
 		else if(power && raceInProgress && mode == Modes.PARIND)
 		{
-			if(currentlyRunning1.contains(runners.get(runnerIndex - 1)))
+			if(currentlyRunning.getFirst().equals(currentlyRunning1.getFirst()))
 			{
 				numStarted--;
-				runnerIndex--;
+				parTimer1.cancel();
+				runnerIndex = runners.indexOf(currentlyRunning.getFirst());
+				currentlyRunning.removeFirst();
 				currentlyRunning1.removeFirst();
-				//runners.add(numFinished, temp);
 			}
-			else if(currentlyRunning2.contains(runners.get(runnerIndex - 1)))
+			else if(currentlyRunning.getFirst().equals(currentlyRunning2.getFirst()))
 			{
 				numStarted--;
-				runnerIndex--;
+				parTimer2.cancel();
+				runnerIndex = runners.indexOf(currentlyRunning.getFirst());
+				currentlyRunning.removeFirst();
 				currentlyRunning2.removeFirst();
-				//runners.add(numFinished, temp);
 			}
 		}
 	}
@@ -229,11 +258,29 @@ public class ChronoTimer {
 			else if(mode == Modes.PARIND)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					System.out.print(runners.get(i).getName() + " ");
+					System.out.print(finishedRunners.get(i).getName() + " ");
 					System.out.println(eventLog.get(i));
 				}
 			}
 		}
+	}
+	
+	public int findNextRunner(Athlete x)
+	{
+		int y = -1;
+		for(int i = 0; i < runners.size(); i++)
+		{
+			if(runners.get(i) == x)
+			{
+				
+			}
+			else if(runners.get(i).time.equals("") && !(currentlyRunning.contains(runners.get(i))))
+			{
+				y = i;
+				break;
+			}
+		}
+		return y;
 	}
 	
 	public void reset()
