@@ -247,6 +247,10 @@ public class ChronoTimer {
 	{
 		if (power)
 		{
+			for(int i=0; i<eventLog.size(); i++){
+				runners.get(i).setTime(eventLog.get(i));
+			}
+			
 			saveToUSB();
 			this.raceInProgress = false;
 		}
