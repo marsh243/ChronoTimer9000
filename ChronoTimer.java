@@ -2,6 +2,8 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import com.google.gson.Gson;
+
 //import Timer;
 public class ChronoTimer {
 	
@@ -24,6 +26,8 @@ public class ChronoTimer {
 	private int numRunners;//counts number of runners added to the runners queue used for Mode PARIND
 	private int runnerIndex;//used to keep track of what index was/is used in the runners linked list
 	private int channelNextToFinish;//TO DO: need to keep track of the next racer that is next to finish for cancel & DNF
+	private int runNumber;
+	private USBdevice usb;
 	
 	
 	public ChronoTimer()
@@ -40,6 +44,8 @@ public class ChronoTimer {
 		this.currentlyRunning2 = new LinkedList<Athlete>();
 		this.finishedRunners = new LinkedList<Athlete>();
 		this.channelNextToFinish = 0;
+		this.runNumber = 0;
+		usb = new USBdevice();
 		
 		channels = new boolean[8];
 		mode = Modes.NONE;
@@ -233,6 +239,7 @@ public class ChronoTimer {
 			this.currentlyRunning1 = new LinkedList<Athlete>();
 			this.currentlyRunning2 = new LinkedList<Athlete>();
 			this.raceInProgress = true;
+			runNumber++;
 		}
 	}
 	
@@ -240,6 +247,7 @@ public class ChronoTimer {
 	{
 		if (power)
 		{
+			saveToUSB();
 			this.raceInProgress = false;
 		}
 	}
@@ -263,6 +271,21 @@ public class ChronoTimer {
 				}
 			}
 		}
+	}
+	
+	public void saveToUSB()
+	{
+		//create json
+		Gson g = new Gson();
+		String json = g.toJson(runners);
+		
+		//create name
+		String name = ""+runNumber;
+		String pad = "000";
+		name = pad.substring(name.length()) + name; // pad left 3 digits - eg. 001
+		name = "RUN"+name+".txt";
+		
+		usb.save(json, name);
 	}
 	
 	public int findNextRunner(Athlete x)
