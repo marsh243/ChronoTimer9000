@@ -31,6 +31,7 @@ public class ChronoTimer {
 	private int channelNextToFinish;//TO DO: need to keep track of the next racer that is next to finish for cancel & DNF
 	private int runNumber;
 	private int grpRunnersFinished;
+	private int grpRunnerCounter;
 	private USBdevice usb;
 	
 	
@@ -53,6 +54,7 @@ public class ChronoTimer {
 		this.channelNextToFinish = 0;
 		this.runNumber = 0;
 		this.grpRunnersFinished = 0;
+		this.grpRunnerCounter = 1;
 		usb = new USBdevice();
 		
 		channels = new boolean[8];
@@ -179,21 +181,25 @@ public class ChronoTimer {
 							{
 								if(numRunners < 10)
 								{
-									addRacer("00"+numRunners);
+									addRacer("00"+(grpRunnerCounter));
 								}
 								else
 								{
 									addRacer("0"+numRunners);
 								}
 								GrpRunners.add(runners.getLast());
-								GrpRunners.getLast().setTime(GrpTimer.finish());
+								GrpRunners.getLast().setTime(GrpTimer.GRPFinishTime());
+								grpRunnerCounter++;
 								grpRunnersFinished++;
+								eventLog.add(GrpRunners.getLast().getTime());
 							}
 							else
 							{
 								GrpRunners.add(runners.get(grpRunnersFinished));
-								GrpRunners.getLast().setTime(GrpTimer.finish());
+								GrpRunners.getLast().setTime(GrpTimer.GRPFinishTime());
 								grpRunnersFinished++;
+								grpRunnerCounter++;
+								eventLog.add(GrpRunners.getLast().getTime());
 							}
 						}
 					}
@@ -232,7 +238,37 @@ public class ChronoTimer {
 				finishedRunners.getLast().setTime("DNF");
 				eventLog.add(finishedRunners.getLast().getTime());
 			}
-		}	
+		}
+		else if(power && raceInProgress && mode == Modes.GRP)
+		{
+			if(grpStarted == true)
+			{
+				if(grpRunnersFinished >= numRunners)
+				{
+					if(numRunners < 10)
+					{
+						addRacer("00"+(grpRunnerCounter));
+					}
+					else
+					{
+						addRacer("0"+numRunners);
+					}
+					GrpRunners.add(runners.getLast());
+					GrpRunners.getLast().setTime("DNF");
+					grpRunnerCounter++;
+					grpRunnersFinished++;
+					eventLog.add(GrpRunners.getLast().getTime());
+				}
+				else
+				{
+					GrpRunners.add(runners.get(grpRunnersFinished));
+					GrpRunners.getLast().setTime("DNF");
+					grpRunnersFinished++;
+					grpRunnerCounter++;
+					eventLog.add(GrpRunners.getLast().getTime());
+				}
+			}
+		}
 	}
 	
 	public void cancel()
@@ -262,6 +298,15 @@ public class ChronoTimer {
 				currentlyRunning2.removeFirst();
 			}
 		}
+		else if(power && raceInProgress && mode == Modes.GRP)
+		{
+			this.GrpRunners = new LinkedList<Athlete>();
+			this.GrpTimer = new Timer();
+			this.grpRunnersFinished = 0;
+			this.grpRunnerCounter = 1;
+			this.numRunners = 0;
+			this.eventLog = new ArrayList<String>();
+		}
 	}
 	
 	public void addRacer(String str)
@@ -290,6 +335,15 @@ public class ChronoTimer {
 	{
 		if (power)
 		{
+			if(mode == Modes.GRP)
+			{
+				for(int i=0; i<eventLog.size(); i++){
+					GrpRunners.get(i).setTime(eventLog.get(i));
+				}
+				saveToUSB();
+				this.raceInProgress = false;
+				return;
+			}
 			for(int i=0; i<eventLog.size(); i++){
 				runners.get(i).setTime(eventLog.get(i));
 			}
@@ -317,12 +371,33 @@ public class ChronoTimer {
 					System.out.println(eventLog.get(i));
 				}
 			}
+			else if(mode == Modes.GRP)
+			{
+				for(int i=0; i<eventLog.size(); i++){
+					System.out.print(GrpRunners.get(i).getName() + " ");
+					System.out.println(eventLog.get(i));
+				}
+			}
 		}
 	}
 	
 	public void saveToUSB()
 	{
 		//create json
+		if(mode== Modes.GRP)
+		{
+			Gson g = new Gson();
+			String json = g.toJson(GrpRunners);
+			
+			//create name
+			String name = ""+runNumber;
+			String pad = "000";
+			name = pad.substring(name.length()) + name; // pad left 3 digits - eg. 001
+			name = "RUN"+name+".txt";
+			
+			usb.save(json, name);
+			return;
+		}
 		Gson g = new Gson();
 		String json = g.toJson(runners);
 		
