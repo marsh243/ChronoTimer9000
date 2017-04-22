@@ -3,7 +3,9 @@ import java.lang.reflect.Array;
 import java.util.*;
 public class Timer {
 	//create arrays for channels 
-	public LinkedList runTimes;   //
+	public LinkedList runTimes;
+	public LinkedList grpRunTimes;
+	private long grpStartTime;
 	
 	public Timer()
 	{
@@ -13,6 +15,11 @@ public class Timer {
 		runTimes.currentStart = runTimes.Start;
 		runTimes.currentFinish = runTimes.Start;
 		runTimes.trailer = runTimes.currentStart;
+		
+		grpRunTimes = new LinkedList();
+		grpRunTimes.Start = new Node();//dummy node
+		//grpRunTimes.currentStart = grpRunTimes.Start;
+		this.grpStartTime = -1;
 	}
 	
 	public String[] getRunTimes()
@@ -57,6 +64,46 @@ public class Timer {
 		sec = (int)((runTime%60000)/1000);
 		hundreths = (int)(runTime%1000)/10;
 		return (hours + ":" + min + ":" + sec + "." + hundreths);
+	}
+	
+	public void GRPStartTime()
+	{
+		if(grpRunTimes.currentStart == null)
+		{
+			grpRunTimes.currentStart = grpRunTimes.Start;
+			Node grpStart = new Node();
+			grpRunTimes.currentStart.nextLink = grpStart;
+			grpRunTimes.currentStart = grpStart;
+			grpStartTime = System.currentTimeMillis();
+			grpStart.StartTime = grpStartTime;
+			grpRunTimes.size++;
+		}
+	}
+	
+	public String GRPFinishTime()
+	{
+		if(grpRunTimes.size == 1)
+		{
+			grpRunTimes.currentStart.EndTime = System.currentTimeMillis();
+			grpRunTimes.currentFinish = grpRunTimes.currentStart;
+			Node grp = new Node();
+			grpRunTimes.currentStart.nextLink = grp;
+			grpRunTimes.currentStart = grp;
+			grpRunTimes.size++;
+			return convert(grpRunTimes.currentFinish);
+		}
+		else if(grpRunTimes.size > 1)
+		{
+			grpRunTimes.currentStart.StartTime = grpStartTime;
+			grpRunTimes.currentStart.EndTime = System.currentTimeMillis();
+			grpRunTimes.currentFinish = grpRunTimes.currentStart;
+			Node grp = new Node();
+			grpRunTimes.currentStart.nextLink = grp;
+			grpRunTimes.currentStart = grp;
+			grpRunTimes.size++;
+			return convert(grpRunTimes.currentFinish);
+		}
+		return "";
 	}
 	
 	public void start()

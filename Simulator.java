@@ -80,6 +80,10 @@ public class Simulator {
 						{
 							ct.setMode(Modes.PARIND);
 						}
+						else if(input.matches("EVENT GRP"))
+						{
+							ct.setMode(Modes.GRP);
+						}
 					}
 					else if(input.matches("NEWRUN"))
 					{

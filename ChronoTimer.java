@@ -11,14 +11,17 @@ public class ChronoTimer {
 	private ArrayList<String> eventLog;
 	private boolean[] channels;
 	private boolean raceInProgress;
+	private boolean grpStarted;
 	private Timer indtimer;
 	private Timer parTimer1;//channel 1 timer for PARIND
 	private Timer parTimer2;//channel 3 timer for PARIND
-	private LinkedList<Athlete> runners;
+	private Timer GrpTimer;
+	private LinkedList<Athlete> runners;//racer names/numbers
 	private LinkedList<Athlete> currentlyRunning;//All the current racers
 	private LinkedList<Athlete> currentlyRunning1;//takes racers when trigger 1 is pushed
 	private LinkedList<Athlete> currentlyRunning2;//takes racers when trigger 3 is pushed
 	private LinkedList<Athlete> finishedRunners;//Used for PARIND and adds runners to the linked list when trig 2 or 4 is pushed
+	private LinkedList<Athlete> GrpRunners;//
 	private Modes mode;
 	private String time;
 	private int numStarted;
@@ -27,6 +30,7 @@ public class ChronoTimer {
 	private int runnerIndex;//used to keep track of what index was/is used in the runners linked list
 	private int channelNextToFinish;//TO DO: need to keep track of the next racer that is next to finish for cancel & DNF
 	private int runNumber;
+	private int grpRunnersFinished;
 	private USBdevice usb;
 	
 	
@@ -34,17 +38,21 @@ public class ChronoTimer {
 	{
 		this.power = false;
 		this.printer = false;
+		this.grpStarted = false;
 		this.eventLog = new ArrayList<String>();
 		this.indtimer = new Timer();
 		this.parTimer1 = new Timer();
 		this.parTimer2 = new Timer();
+		this.GrpTimer = new Timer();
 		this.runners = new LinkedList<Athlete>();
 		this.currentlyRunning = new LinkedList<Athlete>();
 		this.currentlyRunning1 = new LinkedList<Athlete>();
 		this.currentlyRunning2 = new LinkedList<Athlete>();
 		this.finishedRunners = new LinkedList<Athlete>();
+		this.GrpRunners = new LinkedList<Athlete>();
 		this.channelNextToFinish = 0;
 		this.runNumber = 0;
+		this.grpRunnersFinished = 0;
 		usb = new USBdevice();
 		
 		channels = new boolean[8];
@@ -69,6 +77,7 @@ public class ChronoTimer {
 			this.indtimer = new Timer();
 			this.parTimer1 = new Timer();
 			this.parTimer2 = new Timer();
+			this.GrpTimer = new Timer();
 			this.runners = new LinkedList<Athlete>();
 			this.currentlyRunning = new LinkedList<Athlete>();
 			this.currentlyRunning1 = new LinkedList<Athlete>();
@@ -154,6 +163,40 @@ public class ChronoTimer {
 							finishedRunners.getLast().setTime(parTimer2.finish());
 							eventLog.add(finishedRunners.getLast().getTime());
 						}
+				}
+				else if(mode == Modes.GRP)
+				{
+					if(i == 1)
+					{
+						GrpTimer.GRPStartTime();
+						grpStarted = true;
+					}
+					else if(i == 2)
+					{
+						if(grpStarted == true)
+						{
+							if(grpRunnersFinished >= numRunners)
+							{
+								if(numRunners < 10)
+								{
+									addRacer("00"+numRunners);
+								}
+								else
+								{
+									addRacer("0"+numRunners);
+								}
+								GrpRunners.add(runners.getLast());
+								GrpRunners.getLast().setTime(GrpTimer.finish());
+								grpRunnersFinished++;
+							}
+							else
+							{
+								GrpRunners.add(runners.get(grpRunnersFinished));
+								GrpRunners.getLast().setTime(GrpTimer.finish());
+								grpRunnersFinished++;
+							}
+						}
+					}
 				}
 			}
 		}
