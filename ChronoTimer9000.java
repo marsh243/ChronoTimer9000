@@ -34,9 +34,10 @@ public class ChronoTimer9000 {
 	private int grpRunnerCounter;
 	private USBdevice usb;
 	private boolean printPower;
+	private Emulator frame;
 	
 	
-	public ChronoTimer9000()
+	public ChronoTimer9000(Emulator frame)
 	{
 		this.power = false;
 		this.printPower = false;
@@ -59,6 +60,8 @@ public class ChronoTimer9000 {
 		this.grpRunnerCounter = 1;
 		usb = new USBdevice();
 		
+		this.frame = frame;
+		
 		channels = new boolean[8];
 		mode = Modes.NONE;
 		numStarted = 0;
@@ -69,12 +72,14 @@ public class ChronoTimer9000 {
 	
 	public void power()
 	{
-		if(power == false)
+		if(power == true)
 		{
-			power = true;
+			power = false;
+			writeln("Switching off...");
 		}
 		else
 		{
+			writeln("Switching on...");
 			this.power = true;
 			this.printer = false;
 			this.eventLog = new ArrayList<String>();
@@ -96,20 +101,22 @@ public class ChronoTimer9000 {
 	
 	public void setMode()
 	{
-		if(this.mode==mode.NONE)this.mode=mode.IND;
-		else if(this.mode==mode.IND)this.mode=mode.PARIND;
-		else if(this.mode==mode.IND)this.mode=mode.GRP;
-		else {
-			this.mode=mode.NONE;
+		if (power){
+			if(this.mode==mode.NONE)this.mode=mode.IND;
+			else if(this.mode==mode.IND)this.mode=mode.PARIND;
+			else if(this.mode==mode.IND)this.mode=mode.GRP;
+			else {
+				this.mode=mode.NONE;
+			}
+			
+			writeln(this.mode.toString());
 		}
 	}
 	
 	public void toggle(int i)
 	{
-		if (power)
-		{
-			channels[i-1] = !channels[i-1];
-		}
+		write("" + i);
+		channels[i-1] = !channels[i-1];
 	}
 	
 	public void trigger(int i)
@@ -215,7 +222,7 @@ public class ChronoTimer9000 {
 		}
 		else
 		{
-			System.out.println("channel " + i + " is not active");
+			writeln("channel " + i + " is not active");
 		}
 	}
 	
@@ -340,7 +347,7 @@ public class ChronoTimer9000 {
 	
 	public void endRun()
 	{
-		if (power)
+		if (power && raceInProgress)
 		{
 			if(mode == Modes.GRP)
 			{
@@ -357,6 +364,8 @@ public class ChronoTimer9000 {
 			
 			saveToUSB();
 			this.raceInProgress = false;
+			
+			printResults();
 		}
 	}
 	
@@ -364,31 +373,38 @@ public class ChronoTimer9000 {
 		this.printPower = !this.printPower;
 	}
 	
-	public void print()
+	public void printResults()
 	{
 		if (power)
 		{
-			if(mode == Modes.IND)
+			String printString = "";
+			if (!printPower)
+			{
+				writeln("Switch on printer to use.");
+				return;
+			}
+			else if(mode == Modes.IND)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					System.out.print(runners.get(i).getName() + " ");
-					System.out.println(eventLog.get(i));
+					printString += (runners.get(i).getName() + " ");
+					printString += (eventLog.get(i)) + "\n";
 				}
 			}
 			else if(mode == Modes.PARIND)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					System.out.print(finishedRunners.get(i).getName() + " ");
-					System.out.println(eventLog.get(i));
+					printString += (finishedRunners.get(i).getName() + " ");
+					printString += (eventLog.get(i)) + "\n";
 				}
 			}
 			else if(mode == Modes.GRP)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					System.out.print(GrpRunners.get(i).getName() + " ");
-					System.out.println(eventLog.get(i));
+					printString += (GrpRunners.get(i).getName() + " ");
+					printString += (eventLog.get(i)) + "\n";
 				}
 			}
+			println(printString);
 		}
 	}
 	
@@ -478,4 +494,21 @@ public class ChronoTimer9000 {
 		System.exit(0);
 	}
 
+	// Writes a string to the event log
+	private void write(String message)
+	{
+		frame.eventLog.setText(frame.eventLog.getText() + message);
+	}
+	
+	// Writes a string to the event log and ends the line
+	private void writeln(String message)
+	{
+		frame.eventLog.setText(frame.eventLog.getText() + message + "\n");
+	}
+
+	// Writes a line with the printer.
+	private void println(String message)
+	{
+		frame.printer.setText(frame.printer.getText() + message + "\n");
+	}
 }

@@ -17,17 +17,19 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 public class Emulator extends JFrame {
-	ChronoTimer ct = new ChronoTimer();
+	static ChronoTimer9000 ct;
 
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
+	public JPanel contentPane;
+	public JTextField textField;
+	public JTextField textField_1;
+	public JTextField textField_2;
+	public JTextField textField_3;
+	public JTextField textField_4;
+	public JTextField textField_5;
+	public JTextField textField_6;
+	public JTextField textField_7;
+	public JTextArea eventLog;
+	public JTextArea printer;
 
 	/**
 	 * Launch the application.
@@ -38,6 +40,7 @@ public class Emulator extends JFrame {
 				try {
 					Emulator frame = new Emulator();
 					frame.setVisible(true);
+					ct = new ChronoTimer9000(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,7 +53,7 @@ public class Emulator extends JFrame {
 	 */
 	public Emulator() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
+		setBounds(100, 100, 1000, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -330,6 +333,7 @@ public class Emulator extends JFrame {
 		textField_7 = new JTextField();
 		triggers.add(textField_7);
 		textField_7.setText("8");
+		textField_7.setEditable(false);
 		textField_7.setColumns(1);
 		
 		JPanel arrows = new JPanel();
@@ -348,10 +352,11 @@ public class Emulator extends JFrame {
 		JButton button_2 = new JButton(">");
 		arrows.add(button_2, BorderLayout.EAST);
 		
-		JTextArea textArea = new JTextArea("Event Log:\n", 3, 0);
-		textArea.setLineWrap(true);
-		textArea.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(textArea);
+		eventLog = new JTextArea("Event Log:\n", 3, 0);
+		eventLog.setSize(500, 500);
+		eventLog.setLineWrap(true);
+		eventLog.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(eventLog);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		panel.add(scrollPane);
 		
@@ -364,7 +369,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"1");
+				eventLog.setText(eventLog.getText()+"1");
 			}
 			
 		});
@@ -375,7 +380,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"2");
+				eventLog.setText(eventLog.getText()+"2");
 			}
 			
 		});
@@ -387,7 +392,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"3");
+				eventLog.setText(eventLog.getText()+"3");
 			}
 			
 		});
@@ -399,7 +404,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"4");
+				eventLog.setText(eventLog.getText()+"4");
 			}
 			});
 		numPad.add(button_6);
@@ -410,7 +415,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"5");
+				eventLog.setText(eventLog.getText()+"5");
 			}
 			});
 		numPad.add(button_7);
@@ -421,7 +426,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"6");
+				eventLog.setText(eventLog.getText()+"6");
 			}
 			});
 		numPad.add(button_8);
@@ -432,7 +437,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"7");
+				eventLog.setText(eventLog.getText()+"7");
 			}
 			});
 		numPad.add(button_9);
@@ -443,7 +448,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"8");
+				eventLog.setText(eventLog.getText()+"8");
 			}
 			});
 		numPad.add(button_10);
@@ -454,7 +459,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"9");
+				eventLog.setText(eventLog.getText()+"9");
 			}
 			});
 		numPad.add(button_11);
@@ -465,7 +470,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"*");
+				eventLog.setText(eventLog.getText()+"*");
 			}
 			});
 		numPad.add(button_13);
@@ -476,7 +481,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"0");
+				eventLog.setText(eventLog.getText()+"0");
 			}
 			});
 		numPad.add(button_12);
@@ -487,15 +492,15 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText(textArea.getText()+"\n");
+				eventLog.setText(eventLog.getText()+"\n");
 			}
 		});
 		numPad.add(button_14);
 		
-		JTextArea textArea_1 = new JTextArea("Printer:", 3, 0);
-		textArea_1.setLineWrap(true);
-		textArea_1.setEditable(false);
-		JScrollPane scrollPane_1 = new JScrollPane(textArea_1);
+		printer = new JTextArea("Printer:", 3, 0);
+		printer.setLineWrap(true);
+		printer.setEditable(false);
+		JScrollPane scrollPane_1 = new JScrollPane(printer);
 		scrollPane_1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		panel.add(scrollPane_1);
 		
