@@ -31,6 +31,8 @@ public class Emulator extends JFrame {
 	public JTextArea eventLog;
 	public JTextArea printer;
 
+	private String runner = "";
+	
 	/**
 	 * Launch the application.
 	 */
@@ -83,6 +85,7 @@ public class Emulator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ct.setMode();
+				ct.newRun();
 			}
 			
 		});
@@ -352,7 +355,7 @@ public class Emulator extends JFrame {
 		JButton button_2 = new JButton(">");
 		arrows.add(button_2, BorderLayout.EAST);
 		
-		eventLog = new JTextArea("Event Log:\n", 3, 0);
+		eventLog = new JTextArea("", 3, 0);
 		eventLog.setSize(500, 500);
 		eventLog.setLineWrap(true);
 		eventLog.setEditable(false);
@@ -364,108 +367,117 @@ public class Emulator extends JFrame {
 		panel.add(numPad);
 		numPad.setLayout(new GridLayout(4,3));
 		
-		JButton button_3 = new JButton("1");
-		button_3.addActionListener(new ActionListener(){
+		JButton btnNum1 = new JButton("1");
+		btnNum1.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"1");
+				runner += "1";
 			}
 			
 		});
-		numPad.add(button_3);
+		numPad.add(btnNum1);
 		
-		JButton button_4 = new JButton("2");
-		button_4.addActionListener(new ActionListener(){
+		JButton btnNum2 = new JButton("2");
+		btnNum2.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"2");
+				runner += "2";
 			}
 			
 		});
-		numPad.add(button_4);
+		numPad.add(btnNum2);
 		
-		JButton button_5 = new JButton("3");
-		button_5.addActionListener(new ActionListener(){
+		JButton btnNum3 = new JButton("3");
+		btnNum3.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"3");
+				runner += "3";
 			}
 			
 		});
-		numPad.add(button_5);
+		numPad.add(btnNum3);
 		
-		JButton button_6 = new JButton("4");
-		button_6.addActionListener(new ActionListener(){
+		JButton btnNum4 = new JButton("4");
+		btnNum4.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"4");
+				runner += "4";
 			}
 			});
-		numPad.add(button_6);
+		numPad.add(btnNum4);
 		
-		JButton button_7 = new JButton("5");
-		button_7.addActionListener(new ActionListener(){
+		JButton btnNum5 = new JButton("5");
+		btnNum5.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"5");
+				runner += "5";
 			}
 			});
-		numPad.add(button_7);
+		numPad.add(btnNum5);
 		
-		JButton button_8 = new JButton("6");
-		button_8.addActionListener(new ActionListener(){
+		JButton btnNum6 = new JButton("6");
+		btnNum6.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"6");
+				runner += "6";
 			}
 			});
-		numPad.add(button_8);
+		numPad.add(btnNum6);
 		
-		JButton button_9 = new JButton("7");
-		button_9.addActionListener(new ActionListener(){
+		JButton btnNum7 = new JButton("7");
+		btnNum7.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"7");
+				runner += "7";
 			}
 			});
-		numPad.add(button_9);
+		numPad.add(btnNum7);
 		
-		JButton button_10 = new JButton("8");
-		button_10.addActionListener(new ActionListener(){
+		JButton btnNum8 = new JButton("8");
+		btnNum8.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"8");
+				runner += "8";
 			}
 			});
-		numPad.add(button_10);
+		numPad.add(btnNum8);
 		
-		JButton button_11 = new JButton("9");
-		button_11.addActionListener(new ActionListener(){
+		JButton btnNum9 = new JButton("9");
+		btnNum9.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"9");
+				runner += "9";
 			}
 			});
-		numPad.add(button_11);
+		numPad.add(btnNum9);
 		
-		JButton button_13 = new JButton("*");
-		button_13.addActionListener(new ActionListener(){
+		JButton btnAstrx = new JButton("*");
+		btnAstrx.addActionListener(new ActionListener(){
 
 
 			@Override
@@ -473,31 +485,34 @@ public class Emulator extends JFrame {
 				eventLog.setText(eventLog.getText()+"*");
 			}
 			});
-		numPad.add(button_13);
+		numPad.add(btnAstrx);
 		
-		JButton button_12 = new JButton("0");
-		button_12.addActionListener(new ActionListener(){
+		JButton btnNum0 = new JButton("0");
+		btnNum0.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"0");
+				runner += "0";
 			}
 			});
-		numPad.add(button_12);
+		numPad.add(btnNum0);
 		
-		JButton button_14 = new JButton("#");
-		button_14.addActionListener(new ActionListener(){
+		JButton brnPnd = new JButton("#");
+		brnPnd.addActionListener(new ActionListener(){
 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"\n");
+				ct.addRacer(runner);
+				runner = "";
 			}
 		});
-		numPad.add(button_14);
+		numPad.add(brnPnd);
 		
-		printer = new JTextArea("Printer:", 3, 0);
+		printer = new JTextArea("", 3, 0);
 		printer.setLineWrap(true);
 		printer.setEditable(false);
 		JScrollPane scrollPane_1 = new JScrollPane(printer);

@@ -104,7 +104,7 @@ public class ChronoTimer9000 {
 		if (power){
 			if(this.mode==mode.NONE)this.mode=mode.IND;
 			else if(this.mode==mode.IND)this.mode=mode.PARIND;
-			else if(this.mode==mode.IND)this.mode=mode.GRP;
+			else if(this.mode==mode.PARIND)this.mode=mode.GRP;
 			else {
 				this.mode=mode.NONE;
 			}
@@ -115,15 +115,14 @@ public class ChronoTimer9000 {
 	
 	public void toggle(int i)
 	{
-		write("" + i);
 		channels[i-1] = !channels[i-1];
 	}
 	
 	public void trigger(int i)
 	{
-		if(channels[i -1] == true)
+		if(channels[i-1])
 		{
-			if (raceInProgress && power)
+			if (power)
 			{
 				if(mode == Modes.IND)
 				{
@@ -135,7 +134,9 @@ public class ChronoTimer9000 {
 					else if ((i == 2) && numFinished < runners.size())
 					{
 						numFinished++;
-						eventLog.add(indtimer.finish());
+						String finish = indtimer.finish();
+						eventLog.add(finish);
+						println((runners.get(numFinished - 1) + ": "  + finish).replaceAll("\n", ""));
 					}
 				}
 				else if(mode == Modes.PARIND)
@@ -167,6 +168,7 @@ public class ChronoTimer9000 {
 							finishedRunners.add(currentlyRunning1.removeFirst());
 							finishedRunners.getLast().setTime(parTimer1.finish());
 							eventLog.add(finishedRunners.getLast().getTime());
+							println((finishedRunners.getLast() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
 						}
 						else if(i == 4 && numFinished < numRunners)
 						{
@@ -178,6 +180,7 @@ public class ChronoTimer9000 {
 							finishedRunners.add(currentlyRunning2.removeFirst());
 							finishedRunners.getLast().setTime(parTimer2.finish());
 							eventLog.add(finishedRunners.getLast().getTime());
+							println((finishedRunners.getLast() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
 						}
 				}
 				else if(mode == Modes.GRP)
@@ -206,6 +209,7 @@ public class ChronoTimer9000 {
 								grpRunnerCounter++;
 								grpRunnersFinished++;
 								eventLog.add(GrpRunners.getLast().getTime());
+								println((GrpRunners.getLast() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 							}
 							else
 							{
@@ -214,6 +218,7 @@ public class ChronoTimer9000 {
 								grpRunnersFinished++;
 								grpRunnerCounter++;
 								eventLog.add(GrpRunners.getLast().getTime());
+								println((GrpRunners.getLast() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 							}
 						}
 					}
@@ -370,7 +375,14 @@ public class ChronoTimer9000 {
 	}
 	
 	public void printPower(){
-		this.printPower = !this.printPower;
+		if (power)
+		{
+			if (printPower)
+				writeln("Turning off printer.");
+			else
+				writeln("Turning on printer.");
+			this.printPower = !this.printPower;
+		}
 	}
 	
 	public void printResults()
