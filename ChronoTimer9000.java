@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import com.google.gson.Gson;
 
 //import Timer;
-public class ChronoTimer {
+public class ChronoTimer9000 {
 	
 	private boolean power, printer;
 	private ArrayList<String> eventLog;
@@ -33,11 +33,13 @@ public class ChronoTimer {
 	private int grpRunnersFinished;
 	private int grpRunnerCounter;
 	private USBdevice usb;
+	private boolean printPower;
 	
 	
-	public ChronoTimer()
+	public ChronoTimer9000()
 	{
 		this.power = false;
+		this.printPower = false;
 		this.printer = false;
 		this.grpStarted = false;
 		this.eventLog = new ArrayList<String>();
@@ -92,9 +94,14 @@ public class ChronoTimer {
 		}
 	}
 	
-	public void setMode(Modes m)
+	public void setMode()
 	{
-		this.mode = m;
+		if(this.mode==mode.NONE)this.mode=mode.IND;
+		else if(this.mode==mode.IND)this.mode=mode.PARIND;
+		else if(this.mode==mode.IND)this.mode=mode.GRP;
+		else {
+			this.mode=mode.NONE;
+		}
 	}
 	
 	public void toggle(int i)
@@ -353,6 +360,10 @@ public class ChronoTimer {
 		}
 	}
 	
+	public void printPower(){
+		this.printPower = !this.printPower;
+	}
+	
 	public void print()
 	{
 		if (power)
@@ -426,6 +437,18 @@ public class ChronoTimer {
 			}
 		}
 		return y;
+	}
+	
+	public void swap(){
+		if(this.mode!=mode.IND) return;
+		Athlete newFirst, newSecond;
+		LinkedList<Athlete> newRunners = new LinkedList<Athlete>();
+		newSecond = this.runners.removeFirst();
+		newFirst = this.runners.removeFirst();
+		newRunners.add(newFirst);
+		newRunners.add(newSecond);
+		newRunners.addAll(this.runners);
+		this.runners = newRunners;
 	}
 	
 	public void reset()
