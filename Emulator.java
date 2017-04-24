@@ -55,15 +55,15 @@ public class Emulator extends JFrame {
 	 */
 	public Emulator() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 500);
+		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
+		contentPane.setLayout(new GridLayout(2, 2));
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel);
-		
+		contentPane.add(new JPanel());
 		JPanel powerfunctions = new JPanel();
 		panel.add(powerfunctions);
 		powerfunctions.setLayout(new GridLayout(4, 1, 0, 0));
@@ -355,13 +355,13 @@ public class Emulator extends JFrame {
 		JButton button_2 = new JButton(">");
 		arrows.add(button_2, BorderLayout.EAST);
 		
-		eventLog = new JTextArea("", 3, 0);
-		eventLog.setSize(500, 500);
+		
+		eventLog = new JTextArea("Screen:\n", 3, 0);
 		eventLog.setLineWrap(true);
 		eventLog.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(eventLog);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		panel.add(scrollPane);
+		contentPane.add(scrollPane);
 		
 		JPanel numPad = new JPanel();
 		panel.add(numPad);
@@ -512,15 +512,15 @@ public class Emulator extends JFrame {
 		});
 		numPad.add(brnPnd);
 		
-		printer = new JTextArea("", 3, 0);
-		printer.setLineWrap(true);
+		printer = new JTextArea("Printer:\n", 3, 0);
+		printer.setLineWrap(false);
 		printer.setEditable(false);
 		JScrollPane scrollPane_1 = new JScrollPane(printer);
 		scrollPane_1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		panel.add(scrollPane_1);
+		contentPane.add(scrollPane_1);
 		
 		JPanel Channels = new JPanel();
-		contentPane.add(Channels, BorderLayout.SOUTH);
+		//contentPane.add(Channels, BorderLayout.SOUTH);
 		Channels.setLayout(new GridLayout(2, 4, 0, 0));
 		
 		String[] sensors = {"none", "button", "trip", "photogate"};
@@ -533,28 +533,28 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		Channels.add(Ch1);
+		//Channels.add(Ch1);
 		
 		JList Ch2 = new JList(sensors);
-		Channels.add(Ch2);
+		//Channels.add(Ch2);
 		
 		JList Ch3 = new JList(sensors);
-		Channels.add(Ch3);
+		//Channels.add(Ch3);
 		
 		JList Ch4 = new JList(sensors);
-		Channels.add(Ch4);
+		//Channels.add(Ch4);
 		
 		JList Ch5 = new JList(sensors);
-		Channels.add(Ch5);
+		//Channels.add(Ch5);
 		
 		JList Ch6 = new JList(sensors);
-		Channels.add(Ch6);
+		//Channels.add(Ch6);
 		
 		JList Ch7 = new JList(sensors);
-		Channels.add(Ch7);
+		//Channels.add(Ch7);
 		
 		JList Ch8 = new JList(sensors);
-		Channels.add(Ch8);
+		//Channels.add(Ch8);
 	}
 
 }
