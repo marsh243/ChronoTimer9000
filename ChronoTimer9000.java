@@ -74,6 +74,23 @@ public class ChronoTimer9000 {
 		numFinished = 0;
 		numRunners = 0;
 		runnerIndex = 0;
+		
+		Thread t = new Thread(new Runnable() {
+			public void run()
+			{
+				while (true)
+				{
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					displayRace();
+				}
+			}
+		});
+		t.start();
 	}
 	
 	public void power()
@@ -540,27 +557,24 @@ public class ChronoTimer9000 {
 
 	private void displayRace()
 	{
-		while (raceInProgress)
+		String standings = "";
+		
+		if (mode == Modes.IND)
 		{
-			String standings = "";
 			
-			if (mode == Modes.IND)
-			{
-				
-			}
-			else if (mode == Modes.PARIND)
-			{
-				
-			}
-			else if (mode == Modes.GRP)
-			{
-				
-			}
-			
-			
-			screens[1] = standings;
-			updateScreen();
 		}
+		else if (mode == Modes.PARIND)
+		{
+			
+		}
+		else if (mode == Modes.GRP)
+		{
+			
+		}
+		
+		
+		screens[1] = standings;
+		updateScreen();
 	}
 	
 	// Writes a string to the event log
