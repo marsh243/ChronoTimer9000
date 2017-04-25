@@ -542,7 +542,12 @@ public class ChronoTimer9000 {
 	{
 		while (raceInProgress)
 		{
+			String standings = "";
 			
+			
+			
+			screens[1] = standings;
+			updateScreen();
 		}
 	}
 	
