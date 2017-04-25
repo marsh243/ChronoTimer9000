@@ -35,6 +35,7 @@ public class ChronoTimer9000 {
 	private USBdevice usb;
 	private boolean printPower;
 	private Emulator frame;
+	private String[] screens;
 	
 	
 	public ChronoTimer9000(Emulator frame)
@@ -59,6 +60,9 @@ public class ChronoTimer9000 {
 		this.grpRunnersFinished = 0;
 		this.grpRunnerCounter = 1;
 		usb = new USBdevice();
+		this.screens = new String[2];
+		screens[0] = "";
+		screens[1] = "";
 		
 		this.frame = frame;
 		
@@ -532,16 +536,26 @@ public class ChronoTimer9000 {
 		System.exit(0);
 	}
 
+	private void displayRace()
+	{
+		while (raceInProgress)
+		{
+			
+		}
+	}
+	
 	// Writes a string to the event log
 	private void write(String message)
 	{
-		frame.eventLog.setText(frame.eventLog.getText() + message);
+		screens[0] += message;
+		frame.eventLog.setText(screens[0]);
 	}
 	
 	// Writes a string to the event log and ends the line
 	private void writeln(String message)
 	{
-		frame.eventLog.setText(frame.eventLog.getText() + message + "\n");
+		screens[0] += message + "\n";
+		frame.eventLog.setText(screens[0]);
 	}
 
 	// Writes a line with the printer.
