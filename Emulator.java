@@ -30,6 +30,14 @@ public class Emulator extends JFrame {
 	public JTextField textField_7;
 	public JTextArea eventLog;
 	public JTextArea printer;
+	public JCheckBox cbxTrig1;
+	public JCheckBox cbxTrig2;
+	public JCheckBox cbxTrig3;
+	public JCheckBox cbxTrig4;
+	public JCheckBox cbxTrig5;
+	public JCheckBox cbxTrig6;
+	public JCheckBox cbxTrig7;
+	public JCheckBox cbxTrig8;
 
 	private String runner = "";
 	
@@ -184,8 +192,9 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnStart_3);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("1Enabled");
-		chckbxNewCheckBox.addActionListener(new ActionListener(){
+		cbxTrig1 = new JCheckBox("1 Enabled");
+		cbxTrig1.setEnabled(false);
+		cbxTrig1.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -193,10 +202,11 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxNewCheckBox);
+		triggers.add(cbxTrig1);
 		
-		JCheckBox chckbxenabled_1 = new JCheckBox("3Enabled");
-		chckbxenabled_1.addActionListener(new ActionListener(){
+		cbxTrig3 = new JCheckBox("3 Enabled");
+		cbxTrig3.setEnabled(false);
+		cbxTrig3.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -204,10 +214,11 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxenabled_1);
+		triggers.add(cbxTrig3);
 		
-		JCheckBox chckbxenabled_3 = new JCheckBox("5Enabled");
-		chckbxenabled_3.addActionListener(new ActionListener(){
+		cbxTrig5 = new JCheckBox("5 Enabled");
+		cbxTrig5.setEnabled(false);
+		cbxTrig5.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -215,10 +226,11 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxenabled_3);
+		triggers.add(cbxTrig5);
 		
-		JCheckBox chckbxenabled_4 = new JCheckBox("7Enabled");
-		chckbxenabled_4.addActionListener(new ActionListener(){
+		cbxTrig7 = new JCheckBox("7 Enabled");
+		cbxTrig7.setEnabled(false);
+		cbxTrig7.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -226,10 +238,11 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxenabled_4);
+		triggers.add(cbxTrig7);
 		
-		JCheckBox chckbxenabled = new JCheckBox("2Enabled");
-		chckbxenabled.addActionListener(new ActionListener(){
+		cbxTrig2 = new JCheckBox("2 Enabled");
+		cbxTrig2.setEnabled(false);
+		cbxTrig2.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -237,10 +250,11 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxenabled);
+		triggers.add(cbxTrig2);
 		
-		JCheckBox chckbxenabled_2 = new JCheckBox("4Enabled");
-		chckbxenabled_2.addActionListener(new ActionListener(){
+		cbxTrig4 = new JCheckBox("4 Enabled");
+		cbxTrig4.setEnabled(false);
+		cbxTrig4.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -248,10 +262,11 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxenabled_2);
+		triggers.add(cbxTrig4);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("6Enabled");
-		chckbxNewCheckBox_1.addActionListener(new ActionListener(){
+		cbxTrig6 = new JCheckBox("6 Enabled");
+		cbxTrig6.setEnabled(false);
+		cbxTrig6.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -259,10 +274,11 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxNewCheckBox_1);
+		triggers.add(cbxTrig6);
 		
-		JCheckBox chckbxenabled_5 = new JCheckBox("8Enabled");
-		chckbxenabled_5.addActionListener(new ActionListener(){
+		cbxTrig8 = new JCheckBox("8 Enabled");
+		cbxTrig8.setEnabled(false);
+		cbxTrig8.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -270,7 +286,7 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(chckbxenabled_5);
+		triggers.add(cbxTrig8);
 		
 		JButton btnStart = new JButton("Finish2");
 		btnStart.addActionListener(new ActionListener(){

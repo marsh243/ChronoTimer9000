@@ -71,11 +71,27 @@ public class ChronoTimer9000 {
 	}
 	
 	public void power()
-	{
+	{	
 		if(power == true)
 		{
 			power = false;
 			writeln("Switching off...");
+			frame.cbxTrig1.setEnabled(false);
+			frame.cbxTrig2.setEnabled(false);
+			frame.cbxTrig3.setEnabled(false);
+			frame.cbxTrig4.setEnabled(false);
+			frame.cbxTrig5.setEnabled(false);
+			frame.cbxTrig6.setEnabled(false);
+			frame.cbxTrig7.setEnabled(false);
+			frame.cbxTrig8.setEnabled(false);
+			frame.cbxTrig1.setSelected(false);
+			frame.cbxTrig2.setSelected(false);
+			frame.cbxTrig3.setSelected(false);
+			frame.cbxTrig4.setSelected(false);
+			frame.cbxTrig5.setSelected(false);
+			frame.cbxTrig6.setSelected(false);
+			frame.cbxTrig7.setSelected(false);
+			frame.cbxTrig8.setSelected(false);
 		}
 		else
 		{
@@ -96,6 +112,15 @@ public class ChronoTimer9000 {
 			this.channelNextToFinish = 0;
 			channels = new boolean[8];
 			mode = Modes.NONE;
+			
+			frame.cbxTrig1.setEnabled(true);
+			frame.cbxTrig2.setEnabled(true);
+			frame.cbxTrig3.setEnabled(true);
+			frame.cbxTrig4.setEnabled(true);
+			frame.cbxTrig5.setEnabled(true);
+			frame.cbxTrig6.setEnabled(true);
+			frame.cbxTrig7.setEnabled(true);
+			frame.cbxTrig8.setEnabled(true);
 		}
 	}
 	
@@ -115,7 +140,8 @@ public class ChronoTimer9000 {
 	
 	public void toggle(int i)
 	{
-		channels[i-1] = !channels[i-1];
+		if (power)
+			channels[i-1] = !channels[i-1];
 	}
 	
 	public void trigger(int i)
