@@ -544,6 +544,18 @@ public class ChronoTimer9000 {
 		{
 			String standings = "";
 			
+			if (mode == Modes.IND)
+			{
+				
+			}
+			else if (mode == Modes.PARIND)
+			{
+				
+			}
+			else if (mode == Modes.GRP)
+			{
+				
+			}
 			
 			
 			screens[1] = standings;
