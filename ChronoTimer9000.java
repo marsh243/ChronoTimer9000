@@ -550,6 +550,7 @@ public class ChronoTimer9000 {
 	private void write(String message)
 	{
 		screens[0] += message;
+		updateScreen();
 		//frame.eventLog.setText(screens[0]);
 	}
 	
@@ -557,6 +558,7 @@ public class ChronoTimer9000 {
 	private void writeln(String message)
 	{
 		screens[0] += message + "\n";
+		updateScreen();
 		//frame.eventLog.setText(screens[0]);
 	}
 
@@ -570,4 +572,12 @@ public class ChronoTimer9000 {
 	{
 		frame.eventLog.setText(screens[screen]);
 	}
+	
+	public void setScreen(int screen)
+	{
+		this.screen = screen;
+		updateScreen();
+	}
+	
+	
 }
