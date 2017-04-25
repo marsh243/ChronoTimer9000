@@ -12,11 +12,13 @@ public class ChronoTimer9000 {
 	private boolean[] channels;
 	private boolean raceInProgress;
 	private boolean grpStarted;
+	private boolean startRaceScreen;
 	private Timer indtimer;
 	private Timer parTimer1;//channel 1 timer for PARIND
 	private Timer parTimer2;//channel 3 timer for PARIND
 	private Timer GrpTimer;
 	private LinkedList<Athlete> runners;//racer names/numbers
+	private LinkedList<Athlete> displayRunners;//copies runners over to displayRunners to use for display of runners that are queued
 	private LinkedList<Athlete> currentlyRunning;//All the current racers
 	private LinkedList<Athlete> currentlyRunning1;//takes racers when trigger 1 is pushed
 	private LinkedList<Athlete> currentlyRunning2;//takes racers when trigger 3 is pushed
@@ -32,6 +34,7 @@ public class ChronoTimer9000 {
 	private int runNumber;
 	private int grpRunnersFinished;
 	private int grpRunnerCounter;
+	private int displayRunnerCounter;
 	private USBdevice usb;
 	private boolean printPower;
 	private Emulator frame;
@@ -51,6 +54,7 @@ public class ChronoTimer9000 {
 		this.parTimer2 = new Timer();
 		this.GrpTimer = new Timer();
 		this.runners = new LinkedList<Athlete>();
+		this.displayRunners = new LinkedList<Athlete>();
 		this.currentlyRunning = new LinkedList<Athlete>();
 		this.currentlyRunning1 = new LinkedList<Athlete>();
 		this.currentlyRunning2 = new LinkedList<Athlete>();
@@ -60,6 +64,7 @@ public class ChronoTimer9000 {
 		this.runNumber = 0;
 		this.grpRunnersFinished = 0;
 		this.grpRunnerCounter = 1;
+		this.displayRunnerCounter = 0;
 		usb = new USBdevice();
 		this.screens = new String[2];
 		screens[0] = "";
@@ -81,7 +86,7 @@ public class ChronoTimer9000 {
 				while (true)
 				{
 					try {
-						Thread.sleep(500);
+						Thread.sleep(5);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -131,6 +136,7 @@ public class ChronoTimer9000 {
 			this.currentlyRunning1 = new LinkedList<Athlete>();
 			this.currentlyRunning2 = new LinkedList<Athlete>();
 			this.finishedRunners = new LinkedList<Athlete>();
+			this.displayRunners = new LinkedList<Athlete>(); 
 
 			this.channelNextToFinish = 0;
 			channels = new boolean[8];
@@ -197,6 +203,7 @@ public class ChronoTimer9000 {
 								currentlyRunning1.add(runners.get(runnerIndex));
 								parTimer1.start();
 								runnerIndex = findNextRunner(runners.get(runnerIndex));
+								displayRunners.remove(displayRunnerCounter);
 						}
 						else if ((i == 3) && numStarted < numRunners)
 						{
@@ -205,6 +212,7 @@ public class ChronoTimer9000 {
 								currentlyRunning2.add(runners.get(runnerIndex));
 								parTimer2.start();
 								runnerIndex = findNextRunner(runners.get(runnerIndex));	
+								displayRunners.remove(displayRunnerCounter);
 						}
 						//If there is more than one racer active, the finish event is associated with racers in a FIFO basis.
 						else if(i == 2 && numFinished < numRunners)
@@ -217,7 +225,7 @@ public class ChronoTimer9000 {
 							finishedRunners.add(currentlyRunning1.removeFirst());
 							finishedRunners.getLast().setTime(parTimer1.finish());
 							eventLog.add(finishedRunners.getLast().getTime());
-							println((finishedRunners.getLast() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
+							println((" " +finishedRunners.getLast().getName() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
 						}
 						else if(i == 4 && numFinished < numRunners)
 						{
@@ -229,7 +237,7 @@ public class ChronoTimer9000 {
 							finishedRunners.add(currentlyRunning2.removeFirst());
 							finishedRunners.getLast().setTime(parTimer2.finish());
 							eventLog.add(finishedRunners.getLast().getTime());
-							println((finishedRunners.getLast() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
+							println((" " +finishedRunners.getLast().getName() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
 						}
 				}
 				else if(mode == Modes.GRP)
@@ -238,6 +246,7 @@ public class ChronoTimer9000 {
 					{
 						GrpTimer.GRPStartTime();
 						grpStarted = true;
+						
 					}
 					else if(i == 2)
 					{
@@ -254,11 +263,12 @@ public class ChronoTimer9000 {
 									addRacer("0"+numRunners);
 								}
 								GrpRunners.add(runners.getLast());
+								displayRunners.remove(displayRunnerCounter);
 								GrpRunners.getLast().setTime(GrpTimer.GRPFinishTime());
 								grpRunnerCounter++;
 								grpRunnersFinished++;
 								eventLog.add(GrpRunners.getLast().getTime());
-								println((GrpRunners.getLast() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
+								println((" " + GrpRunners.getLast().getName() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 							}
 							else
 							{
@@ -267,7 +277,8 @@ public class ChronoTimer9000 {
 								grpRunnersFinished++;
 								grpRunnerCounter++;
 								eventLog.add(GrpRunners.getLast().getTime());
-								println((GrpRunners.getLast() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
+								displayRunners.remove(displayRunnerCounter);
+								println((" " + GrpRunners.getLast().getName() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 							}
 						}
 					}
@@ -383,6 +394,7 @@ public class ChronoTimer9000 {
 		{
 			this.runners.add(new Athlete(str));
 			numRunners++;
+			this.displayRunners.add(runners.getLast());
 		}
 		
 	}
@@ -565,10 +577,45 @@ public class ChronoTimer9000 {
 		}
 		else if (mode == Modes.PARIND)
 		{
+			standings += "Runners Queued:\n\n";
 			
+			for(int i = 0; i < displayRunners.size();i++)
+			{
+				standings += displayRunners.get(i) + "\n";
+			}
+			
+			standings += "Racing:\n";
+			for(int i = 0; i < currentlyRunning1.size();i++)
+			{
+				standings += currentlyRunning1.get(i) + "\n";
+			}
+			for(int i = 0; i < currentlyRunning2.size();i++)
+			{
+				standings += currentlyRunning2.get(i) + "\n";
+			}
+			
+			standings += "Finished:\n";
+			for(int i = 0; i < finishedRunners.size();i++)
+			{
+				standings += finishedRunners.get(i) + "\n";
+			}
 		}
 		else if (mode == Modes.GRP)
 		{
+			standings += "Racing:\n\n";
+			if(grpStarted == true)
+			{
+				for(int i = 0; i < displayRunners.size();i++)
+				{
+					standings += displayRunners.get(i) + "\n";
+				}
+				
+				standings += "Finished:\n";
+				for(int i = 0; i < GrpRunners.size();i++)
+				{
+					standings += GrpRunners.get(i) + "\n\n";
+				}
+			}
 			
 		}
 		
