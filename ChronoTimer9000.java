@@ -36,6 +36,7 @@ public class ChronoTimer9000 {
 	private boolean printPower;
 	private Emulator frame;
 	private String[] screens;
+	private int screen;
 	
 	
 	public ChronoTimer9000(Emulator frame)
@@ -63,6 +64,7 @@ public class ChronoTimer9000 {
 		this.screens = new String[2];
 		screens[0] = "";
 		screens[1] = "";
+		this.screen = 0;
 		
 		this.frame = frame;
 		
@@ -548,19 +550,24 @@ public class ChronoTimer9000 {
 	private void write(String message)
 	{
 		screens[0] += message;
-		frame.eventLog.setText(screens[0]);
+		//frame.eventLog.setText(screens[0]);
 	}
 	
 	// Writes a string to the event log and ends the line
 	private void writeln(String message)
 	{
 		screens[0] += message + "\n";
-		frame.eventLog.setText(screens[0]);
+		//frame.eventLog.setText(screens[0]);
 	}
 
 	// Writes a line with the printer.
 	private void println(String message)
 	{
 		frame.printer.setText(frame.printer.getText() + message + "\n");
+	}
+
+	private void updateScreen()
+	{
+		frame.eventLog.setText(screens[screen]);
 	}
 }
