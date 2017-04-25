@@ -366,9 +366,27 @@ public class Emulator extends JFrame {
 		arrows.add(btnV, BorderLayout.SOUTH);
 		
 		JButton button_1 = new JButton("<");
+		button_1.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ct.setScreen(0);
+			}
+			
+		});
 		arrows.add(button_1, BorderLayout.WEST);
 		
+		
 		JButton button_2 = new JButton(">");
+		button_2.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ct.setScreen(1);
+				
+			}
+			
+		});
 		arrows.add(button_2, BorderLayout.EAST);
 		
 		
