@@ -41,7 +41,6 @@ public class ChronoTimer9000 {
 	private String[] screens;
 	private int screen;
 	
-	
 	public ChronoTimer9000(Emulator frame)
 	{
 		this.power = false;
@@ -163,6 +162,7 @@ public class ChronoTimer9000 {
 				this.mode=mode.NONE;
 			}
 			
+			clean(); // Clears partially entered data, etc.
 			writeln(this.mode.toString());
 		}
 	}
@@ -574,12 +574,25 @@ public class ChronoTimer9000 {
 		System.exit(0);
 	}
 
+	public void setScreen(int screen)
+	{
+		this.screen = screen;
+		updateScreen();
+	}
+	
+	
+	
+	/*
+	 * Helper Methods section
+	 */
+	
+	// Updates the right display to the current standings.
 	private void displayRace()
 	{
 		String standings = "";
 		try{
 			if (mode == Modes.IND)
-			{//TODO
+			{
 				standings += "Runners Queued:\n";
 				
 				for(int i = numStarted; (i < displayRunners.size() && i < numStarted + 3) ;i++)
@@ -598,7 +611,7 @@ public class ChronoTimer9000 {
 			}
 			else if (mode == Modes.PARIND)
 			{
-				standings += "Runners Queued:\n\n";
+				standings += "Runners Queued:\n";
 				
 				for(int i = 0; i < displayRunners.size();i++)
 				{
@@ -608,28 +621,28 @@ public class ChronoTimer9000 {
 				standings += "Racing:\n";
 				for(int i = 0; i < currentlyRunning1.size();i++)
 				{
-					standings += currentlyRunning1.get(i) + "\n";
+					standings += currentlyRunning1.get(i);
 				}
 				for(int i = 0; i < currentlyRunning2.size();i++)
 				{
-					standings += currentlyRunning2.get(i) + "\n";
+					standings += currentlyRunning2.get(i);
 				}
 				
-				standings += "Finished:\n";
+				standings += "\nFinished:\n";
 				if (finishedRunners.size() > 0)
 					standings += finishedRunners.get(finishedRunners.size() - 1) + "\n";
 			}
 			else if (mode == Modes.GRP)
 			{
-				standings += "Racing:\n\n";
+				standings += "Racing:\n";
 				if(grpStarted == true)
 				{
-					for(int i = 0; i < displayRunners.size();i++)
+					for(int i = 0 ; i < displayRunners.size() ; i++)
 					{
-						standings += displayRunners.get(i) + "\n";
+						standings += displayRunners.get(i);
 					}
 					
-					standings += "Finished:\n";
+					standings += "\nFinished:\n";
 					if(GrpRunners.size() > 0)
 						standings += GrpRunners.get(GrpRunners.size()-1) + "\n\n";
 				}
@@ -674,11 +687,36 @@ public class ChronoTimer9000 {
 		frame.eventLog.setText(screens[screen]);
 	}
 	
-	public void setScreen(int screen)
+	// Cleans up unresolved data after switching modes.
+	private void clean()
 	{
-		this.screen = screen;
-		updateScreen();
+		this.grpStarted = false;
+		this.eventLog = new ArrayList<String>();
+		this.indtimer = new Timer();
+		this.parTimer1 = new Timer();
+		this.parTimer2 = new Timer();
+		this.GrpTimer = new Timer();
+		this.runners = new LinkedList<Athlete>();
+		this.displayRunners = new LinkedList<Athlete>();
+		this.currentlyRunning = new LinkedList<Athlete>();
+		this.currentlyRunning1 = new LinkedList<Athlete>();
+		this.currentlyRunning2 = new LinkedList<Athlete>();
+		this.finishedRunners = new LinkedList<Athlete>();
+		this.GrpRunners = new LinkedList<Athlete>();
+		this.channelNextToFinish = 0;
+		this.runNumber = 0;
+		this.grpRunnersFinished = 0;
+		this.grpRunnerCounter = 1;
+		this.displayRunnerCounter = 0;
+		
+		this.screen = 0;		
+		numStarted = 0;
+		numFinished = 0;
+		numRunners = 0;
+		runnerIndex = 0;
 	}
+	
+
 	
 	
 }
