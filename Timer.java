@@ -117,6 +117,9 @@ public class Timer {
 	
 	public String finish()
 	{
+		runTimes.toString();
+		runTimes.currentFinish.toString();
+		runTimes.currentFinish.nextLink.toString();
 		runTimes.currentFinish.nextLink.EndTime = System.currentTimeMillis();
 		runTimes.currentFinish = runTimes.currentFinish.nextLink;
 		runTimes.LastFinishTime = runTimes.currentFinish;

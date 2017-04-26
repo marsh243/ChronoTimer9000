@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -393,6 +394,9 @@ public class Emulator extends JFrame {
 		eventLog = new JTextArea("Screen:\n", 3, 0);
 		eventLog.setLineWrap(true);
 		eventLog.setEditable(false);
+		eventLog.setBackground(Color.BLACK);
+		eventLog.setDisabledTextColor(Color.GREEN);
+		eventLog.setEnabled(false);
 		JScrollPane scrollPane = new JScrollPane(eventLog);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane);
@@ -540,8 +544,11 @@ public class Emulator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"\n");
-				ct.addRacer(runner);
-				runner = "";
+				if (runner != "")
+				{
+					ct.addRacer(runner);
+					runner = "";
+				}
 			}
 		});
 		numPad.add(brnPnd);

@@ -80,15 +80,15 @@ public class ChronoTimer9000 {
 		numRunners = 0;
 		runnerIndex = 0;
 		
+		// Updates the current race standings/results in a thread
 		Thread t = new Thread(new Runnable() {
 			public void run()
 			{
 				while (true)
 				{
 					try {
-						Thread.sleep(5);
+						Thread.sleep(50);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					displayRace();
@@ -572,8 +572,22 @@ public class ChronoTimer9000 {
 		String standings = "";
 		
 		if (mode == Modes.IND)
-		{
+		{//TODO
+			standings += "Runners Queued:\n";
 			
+			for(int i = numStarted; (i < displayRunners.size() && i < numStarted + 3) ;i++)
+			{
+				standings += runners.get(i);
+			}
+			standings += "\nRacing:\n";
+			for(int i = 0; i < runners.size() && i < numStarted - numFinished ; i++)
+			{
+				standings += runners.get(i) + "\n";
+			}
+			
+			standings += "Finished:\n";
+			if (numFinished > 0)
+				standings += runners.get(numFinished--) + "\n";
 		}
 		else if (mode == Modes.PARIND)
 		{
@@ -595,10 +609,8 @@ public class ChronoTimer9000 {
 			}
 			
 			standings += "Finished:\n";
-			for(int i = 0; i < finishedRunners.size();i++)
-			{
-				standings += finishedRunners.get(i) + "\n";
-			}
+			if (finishedRunners.size() > 0)
+				standings += finishedRunners.get(finishedRunners.size() - 1) + "\n";
 		}
 		else if (mode == Modes.GRP)
 		{
@@ -611,17 +623,16 @@ public class ChronoTimer9000 {
 				}
 				
 				standings += "Finished:\n";
-				for(int i = 0; i < GrpRunners.size();i++)
-				{
-					standings += GrpRunners.get(i) + "\n\n";
-				}
+				if(GrpRunners.size() > 0)
+					standings += GrpRunners.get(GrpRunners.size()-1) + "\n\n";
 			}
 			
 		}
 		
 		
 		screens[1] = standings;
-		updateScreen();
+		if (screen == 1)
+			updateScreen();
 	}
 	
 	// Writes a string to the event log
