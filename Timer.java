@@ -5,6 +5,7 @@ public class Timer {
 	//create arrays for channels 
 	public LinkedList runTimes;
 	public LinkedList grpRunTimes;
+	public LinkedList parGrpRunTimes;
 	private long grpStartTime;
 	
 	public Timer()
@@ -20,6 +21,12 @@ public class Timer {
 		grpRunTimes.Start = new Node();//dummy node
 		//grpRunTimes.currentStart = grpRunTimes.Start;
 		this.grpStartTime = -1;
+		
+		parGrpRunTimes = new LinkedList();
+		parGrpRunTimes.Start = new Node();//dummy node
+		parGrpRunTimes.currentStart = parGrpRunTimes.Start;
+		parGrpRunTimes.currentFinish = parGrpRunTimes.currentStart;
+		parGrpRunTimes.findIndex =  parGrpRunTimes.currentStart;
 	}
 	
 	public String[] getRunTimes()
@@ -64,6 +71,25 @@ public class Timer {
 		sec = (int)((runTime%60000)/1000);
 		hundreths = (int)(runTime%1000)/10;
 		return (hours + ":" + min + ":" + sec + "." + hundreths);
+	}
+	
+	public void ParGRPStartTime(int numRunners)
+	{
+		long startingTime = System.currentTimeMillis();//set start time of each runner to current system time
+		for(int i = 0; i < numRunners; i++)
+		{
+			Node par = new Node();
+			parGrpRunTimes.currentStart.nextLink = par;
+			parGrpRunTimes.currentStart = parGrpRunTimes.currentStart.nextLink;
+			parGrpRunTimes.currentStart.StartTime = startingTime;
+		}
+	}
+	
+	public String ParGRPFinish(int index)
+	{
+		Node finish = parGrpRunTimes.getRunner(parGrpRunTimes, index);
+		finish.EndTime = System.currentTimeMillis();
+		return convert(finish);
 	}
 	
 	public void GRPStartTime()
@@ -204,6 +230,7 @@ public class Timer {
 	            Node currentStart;
 	            Node currentFinish;
 	            Node trailer;
+	            Node findIndex;
 	            int size;
 	           
 	            public LinkedList(){
@@ -216,6 +243,16 @@ public class Timer {
 	           
 	            public boolean isEmpty(){
 	                  return Start==null;
+	            }
+	            
+	            public Node getRunner(LinkedList r,int i)
+	            {
+	            	r.findIndex = r.Start;
+	            	for(int j = 0; j < i; j++)
+	            	{
+	            		r.findIndex = r.findIndex.nextLink;
+	            	}
+	            	return r.findIndex;
 	            }
 	           
 	      }//end LinkedList class

@@ -13,10 +13,12 @@ public class ChronoTimer9000 {
 	private boolean raceInProgress;
 	private boolean grpStarted;
 	private boolean startRaceScreen;
+	private boolean parGrpStarted;
 	private Timer indtimer;
 	private Timer parTimer1;//channel 1 timer for PARIND
 	private Timer parTimer2;//channel 3 timer for PARIND
 	private Timer GrpTimer;
+	private Timer ParGrpTimer;
 	private LinkedList<Athlete> runners;//racer names/numbers
 	private LinkedList<Athlete> displayRunners;//copies runners over to displayRunners to use for display of runners that are queued
 	private LinkedList<Athlete> currentlyRunning;//All the current racers
@@ -24,6 +26,8 @@ public class ChronoTimer9000 {
 	private LinkedList<Athlete> currentlyRunning2;//takes racers when trigger 3 is pushed
 	private LinkedList<Athlete> finishedRunners;//Used for PARIND and adds runners to the linked list when trig 2 or 4 is pushed
 	private LinkedList<Athlete> GrpRunners;//
+	private LinkedList<Athlete> ParGrpRunners;
+	private LinkedList<Athlete> ParGrpRunnersFinished;
 	private Modes mode;
 	private String time;
 	private int numStarted;
@@ -39,6 +43,7 @@ public class ChronoTimer9000 {
 	private boolean printPower;
 	private Emulator frame;
 	private String[] screens;
+	private String[] ParGrpDisplayRunners;
 	private int screen;
 	
 	public ChronoTimer9000(Emulator frame)
@@ -47,11 +52,13 @@ public class ChronoTimer9000 {
 		this.printPower = false;
 		this.printer = false;
 		this.grpStarted = false;
+		this.parGrpStarted = false;
 		this.eventLog = new ArrayList<String>();
 		this.indtimer = new Timer();
 		this.parTimer1 = new Timer();
 		this.parTimer2 = new Timer();
 		this.GrpTimer = new Timer();
+		this.ParGrpTimer = new Timer();
 		this.runners = new LinkedList<Athlete>();
 		this.displayRunners = new LinkedList<Athlete>();
 		this.currentlyRunning = new LinkedList<Athlete>();
@@ -59,12 +66,19 @@ public class ChronoTimer9000 {
 		this.currentlyRunning2 = new LinkedList<Athlete>();
 		this.finishedRunners = new LinkedList<Athlete>();
 		this.GrpRunners = new LinkedList<Athlete>();
+		this.ParGrpRunners = new LinkedList<Athlete>();
+		this.ParGrpRunnersFinished = new LinkedList<Athlete>();
 		this.channelNextToFinish = 0;
 		this.runNumber = 0;
 		this.grpRunnersFinished = 0;
 		this.grpRunnerCounter = 1;
 		this.displayRunnerCounter = 0;
 		usb = new USBdevice();
+		this.ParGrpDisplayRunners = new String[8];
+		for(int i = 0; i < 8; i++)
+		{
+			ParGrpDisplayRunners[i] = "";
+		}
 		this.screens = new String[2];
 		screens[0] = "";
 		screens[1] = "";
@@ -158,6 +172,7 @@ public class ChronoTimer9000 {
 			if(this.mode==mode.NONE)this.mode=mode.IND;
 			else if(this.mode==mode.IND)this.mode=mode.PARIND;
 			else if(this.mode==mode.PARIND)this.mode=mode.GRP;
+			else if(this.mode==mode.GRP)this.mode=mode.PARGRP;
 			else {
 				this.mode=mode.NONE;
 			}
@@ -213,7 +228,7 @@ public class ChronoTimer9000 {
 						else if ((i == 3) && numStarted < numRunners)
 						{
 							if (numStarted == 0)
-								println("\nIndividual Race:");
+								println("\nParallel Individual Race:");
 								numStarted++;
 							currentlyRunning.add(runners.get(runnerIndex));
 							currentlyRunning2.add(runners.get(runnerIndex));
@@ -252,8 +267,7 @@ public class ChronoTimer9000 {
 					if(i == 1 && !grpStarted)
 					{
 						GrpTimer.GRPStartTime();
-						grpStarted = true;
-						
+						grpStarted = true;	
 					}
 					else if(i == 2)
 					{
@@ -287,6 +301,105 @@ public class ChronoTimer9000 {
 								displayRunners.remove(displayRunnerCounter);
 								println((" " + GrpRunners.getLast().getName() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 							}
+						}
+					}
+				}
+				else if(mode == Modes.PARGRP)
+				{
+					if(i == 1)
+					{
+						if(numRunners >= 1 && parGrpStarted == false)
+						{
+							for(int j = 0; j < 8; j++)
+							{
+								if(j == numRunners)
+								{
+									break;
+								}
+								ParGrpRunners.add(runners.get(j));
+								//displayRunners.add(runners.get(j));
+							}
+							ParGrpTimer.ParGRPStartTime(ParGrpRunners.size());
+							parGrpStarted = true;
+							//runner in index 0 is assigned to this channel
+							//start race
+						}
+						else if(numRunners >= 1 && parGrpStarted == true)//after race is started, racer's time is ended on this channel
+						{
+							
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpDisplayRunners[i-1] = "";
+						}
+					}
+					else if(i == 2)
+					{
+						if(numRunners >= 2 && parGrpStarted == true)
+						{
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpDisplayRunners[i-1] = "";
+						}
+					}
+					else if(i == 3)
+					{
+						if(numRunners >= 3 && parGrpStarted == true)
+						{
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpDisplayRunners[i-1] = "";
+						}
+					}
+					else if(i == 4)
+					{
+						if(numRunners >= 4 && parGrpStarted == true)
+						{
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpDisplayRunners[i-1] = "";
+						}
+					}
+					else if(i == 5)
+					{
+						if(numRunners >= 5 && parGrpStarted == true)
+						{
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpDisplayRunners[i-1] = "";
+						}
+					}
+					else if(i == 6)
+					{
+						if(numRunners >= 6 && parGrpStarted == true)
+						{
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpDisplayRunners[i-1] = "";
+						}
+					}
+					else if(i == 7)
+					{
+						if(numRunners >= 7 && parGrpStarted == true)
+						{
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpDisplayRunners[i-1] = "";
+						}
+					}
+					else if(i == 8)
+					{
+						if(numRunners >= 8 && parGrpStarted == true)
+						{
+							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
+							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpDisplayRunners[i-1] = "";
 						}
 					}
 				}
@@ -647,6 +760,26 @@ public class ChronoTimer9000 {
 						standings += GrpRunners.get(GrpRunners.size()-1) + "\n\n";
 				}
 				
+			}
+			else if(mode == Modes.PARGRP)//Look here!!!
+			{
+				standings += "Racing:\n";
+				if(parGrpStarted == true)
+				{
+					for(int i = 0; i < displayRunners.size(); i++)
+					{
+						ParGrpDisplayRunners[i] = displayRunners.get(i).getName();
+						if(ParGrpDisplayRunners[i] != "")
+						{
+							standings += ParGrpDisplayRunners[i]+"\n";//need to add to displayRunners when start is triggered
+						}
+					}
+					standings += "\nFinished:\n";
+					for(int j = 0; j < ParGrpRunnersFinished.size(); j++)
+					{
+						standings += ParGrpRunnersFinished.get(j).getName() + "\n";
+					}
+				}
 			}
 			
 			

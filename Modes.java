@@ -1,5 +1,5 @@
 
 
 public enum Modes {
-	NONE, IND, PARIND, GRP;
+	NONE, IND, PARIND, GRP, PARGRP;
 }
