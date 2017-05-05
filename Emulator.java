@@ -66,21 +66,21 @@ public class Emulator extends JFrame {
 	 */
 	public static void main(String[] args) {
 		
-//		try {
-//			HttpServer server = HttpServer.create(new InetSocketAddress(8000),0);
-//					// create a context to get the request to display the results
-//			        server.createContext("/displayresults", new DisplayHandler());
-//
-//			        // create a context to get the request for the POST
-//			        server.createContext("/sendresults",new PostHandler());
-//			        server.setExecutor(null); // creates a default executor
-//
-//			        // get it going
-//			        System.out.println("Starting Server...");
-//			        server.start();
-//		} catch (IOException e1) {
-//			
-//		}
+		try {
+			HttpServer server = HttpServer.create(new InetSocketAddress(8000),0);
+					// create a context to get the request to display the results
+			        server.createContext("/displayresults", new DisplayHandler());
+
+			        // create a context to get the request for the POST
+			        server.createContext("/sendresults",new PostHandler());
+			        server.setExecutor(null); // creates a default executor
+
+			        // get it going
+			        System.out.println("Starting Server...");
+			        server.start();
+		} catch (IOException e1) {
+			
+		}
 		
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -668,7 +668,7 @@ public class Emulator extends JFrame {
                     //Collections.sort((List<T>) fromJson);
 
                     for (Athlete r : fromJson) {
-                        response += "<tr>\n<td>" + (names.get(r.getBib())).split(" ")[0] + "</td>\n<td>" + (names.get(r.getBib())).split(" ")[1] + "</td>\n<td>" + r.getBib() + "</td>\n<td>" + r.getTime() + "</td>\n</tr>\n";
+                        response += "<tr>\n<td>" + (r.getName()).split(" ")[0] + "</td>\n<td>" + (r.getTime()).split(" ")[1] + "</td>\n</tr>\n"; //+ "</td>\n<td>" + r.getBib() + "</td>\n<td>" + r.getTime() + "</td>\n</tr>\n";
                     }
                 }
             } catch (JsonSyntaxException e) {
@@ -682,44 +682,44 @@ public class Emulator extends JFrame {
             os.write(response.getBytes());
             os.close();
         }
-        static class PostHandler implements HttpHandler {
-            public void handle(HttpExchange transmission) throws IOException {
+    }
+	static class PostHandler implements HttpHandler {
+        public void handle(HttpExchange transmission) throws IOException {
 
-                //  shared data that is used with other handlers
-                sharedResponse = "";
+            //  shared data that is used with other handlers
+            sharedResponse = "";
 
-                // set up a stream to read the body of the request
-                InputStream inputStr = transmission.getRequestBody();
+            // set up a stream to read the body of the request
+            InputStream inputStr = transmission.getRequestBody();
 
-                // set up a stream to write out the body of the response
-                OutputStream outputStream = transmission.getResponseBody();
+            // set up a stream to write out the body of the response
+            OutputStream outputStream = transmission.getResponseBody();
 
-                // string to hold the result of reading in the request
-                StringBuilder sb = new StringBuilder();
+            // string to hold the result of reading in the request
+            StringBuilder sb = new StringBuilder();
 
-                // read the characters from the request byte by byte and build up the sharedResponse
-                int nextChar = inputStr.read();
-                while (nextChar > -1) {
-                    sb=sb.append((char)nextChar);
-                    nextChar=inputStr.read();
-                }
-
-                // create our response String to use in other handler
-                sharedResponse = sharedResponse+sb.toString();
-
-                // respond to the POST with ROGER
-                String postResponse = "Racer Received ";
-
-                System.out.println("response: " + sharedResponse);
-
-                // assume that stuff works all the time
-                transmission.sendResponseHeaders(300, postResponse.length());
-
-                // write it and return it
-                outputStream.write(postResponse.getBytes());
-
-                outputStream.close();
+            // read the characters from the request byte by byte and build up the sharedResponse
+            int nextChar = inputStr.read();
+            while (nextChar > -1) {
+                sb=sb.append((char)nextChar);
+                nextChar=inputStr.read();
             }
+
+            // create our response String to use in other handler
+            sharedResponse = sharedResponse+sb.toString();
+
+            // respond to the POST with ROGER
+            String postResponse = "Racer Received ";
+
+            System.out.println("response: " + sharedResponse);
+
+            // assume that stuff works all the time
+            transmission.sendResponseHeaders(300, postResponse.length());
+
+            // write it and return it
+            outputStream.write(postResponse.getBytes());
+
+            outputStream.close();
         }
     }
 }
