@@ -316,7 +316,7 @@ public class ChronoTimer9000 {
 								{
 									break;
 								}
-								ParGrpRunners.add(runners.get(j));
+								ParGrpRunners.addLast(runners.get(j));
 								//displayRunners.add(runners.get(j));
 							}
 							ParGrpTimer.ParGRPStartTime(ParGrpRunners.size());
@@ -324,82 +324,91 @@ public class ChronoTimer9000 {
 							//runner in index 0 is assigned to this channel
 							//start race
 						}
-						else if(numRunners >= 1 && parGrpStarted == true)//after race is started, racer's time is ended on this channel
+						else if(numRunners >= 1 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")//after race is started, racer's time is ended on this channel
 						{
 							
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
-							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpRunnersFinished.add(displayRunners.get(i- 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 					else if(i == 2)
 					{
-						if(numRunners >= 2 && parGrpStarted == true)
+						if(numRunners >= 2 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							ParGrpRunnersFinished.add(displayRunners.get(i- 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 					else if(i == 3)
 					{
-						if(numRunners >= 3 && parGrpStarted == true)
+						if(numRunners >= 3 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
-							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 					else if(i == 4)
 					{
-						if(numRunners >= 4 && parGrpStarted == true)
+						if(numRunners >= 4 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
-							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 					else if(i == 5)
 					{
-						if(numRunners >= 5 && parGrpStarted == true)
+						if(numRunners >= 5 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
-							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 					else if(i == 6)
 					{
-						if(numRunners >= 6 && parGrpStarted == true)
+						if(numRunners >= 6 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
-							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 					else if(i == 7)
 					{
-						if(numRunners >= 7 && parGrpStarted == true)
+						if(numRunners >= 7 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
-							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 					else if(i == 8)
 					{
-						if(numRunners >= 8 && parGrpStarted == true)
+						if(numRunners >= 8 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
 							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
-							ParGrpRunnersFinished.add(displayRunners.get(i));
+							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
+							displayRace();
 						}
 					}
 				}
@@ -769,7 +778,7 @@ public class ChronoTimer9000 {
 					for(int i = 0; i < displayRunners.size(); i++)
 					{
 						ParGrpDisplayRunners[i] = displayRunners.get(i).getName();
-						if(ParGrpDisplayRunners[i] != "")
+						if(displayRunners.get(i).getTime() == "")
 						{
 							standings += ParGrpDisplayRunners[i]+"\n";//need to add to displayRunners when start is triggered
 						}
