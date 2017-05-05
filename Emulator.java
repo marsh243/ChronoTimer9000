@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -38,6 +39,7 @@ public class Emulator extends JFrame {
     static boolean gotMessageFlag = false;
     
 	static ChronoTimer9000 ct;
+	public Directory d;
 
 	public JPanel contentPane;
 	public JTextField textField;
@@ -100,6 +102,8 @@ public class Emulator extends JFrame {
 	 * Create the frame.
 	 */
 	public Emulator() {
+		d = new Directory();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
@@ -553,12 +557,13 @@ public class Emulator extends JFrame {
 		
 		JButton btnAstrx = new JButton("*");
 		btnAstrx.addActionListener(new ActionListener(){
-
+		LinkedList<Athlete> a = new LinkedList<Athlete>();
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"*");
-				ct.endRun();
+				this.a = ct.endRun();
+				d.add(this.a);
 			}
 			});
 		numPad.add(btnAstrx);

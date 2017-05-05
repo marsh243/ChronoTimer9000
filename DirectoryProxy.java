@@ -5,13 +5,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class DirectoryProxy {
-    public static void add(ArrayList<Athlete> racers) {
+    public void add(LinkedList<Athlete> r) {
         try {
             //System.out.println("in the client");
 
@@ -27,7 +28,7 @@ public class DirectoryProxy {
 
             // build a string that contains JSON from console
             String content = "";
-            content = getJSON(racers);
+            content = getJSON(r);
 
             // write out string to output buffer for message
 
@@ -54,7 +55,7 @@ public class DirectoryProxy {
         }
     }
 
-    private static String getJSON(ArrayList<Athlete> r) {
+    private static String getJSON(LinkedList<Athlete> r) {
         Gson g = new Gson();
         String emps = g.toJson(r);
 

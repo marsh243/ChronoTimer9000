@@ -566,7 +566,7 @@ public class ChronoTimer9000 {
 		}
 	}
 	
-	public void endRun()
+	public LinkedList<Athlete> endRun()
 	{
 		if (power && raceInProgress)
 		{
@@ -576,7 +576,7 @@ public class ChronoTimer9000 {
 				//saveToUSB();
 				//this.raceInProgress = false;
 				printResults();
-				return;
+				return displayToServer;
 			}
 			if(mode == Modes.GRP)
 			{
@@ -585,7 +585,7 @@ public class ChronoTimer9000 {
 				}
 				saveToUSB();
 				this.raceInProgress = false;
-				return;
+				return displayToServer;
 			}
 			for(int i=0; i<eventLog.size(); i++){
 				runners.get(i).setTime(eventLog.get(i));
@@ -596,6 +596,7 @@ public class ChronoTimer9000 {
 			
 			printResults();
 		}
+		return displayToServer;
 	}
 	
 	public void printPower(){
