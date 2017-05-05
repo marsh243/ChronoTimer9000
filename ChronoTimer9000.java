@@ -477,6 +477,17 @@ public class ChronoTimer9000 {
 				}
 			}
 		}
+		else if(power && raceInProgress && mode == Modes.PARGRP)
+		{
+			for(int i = 0; i < displayRunners.size(); i++)
+			{
+				if(ParGrpRunners.get(i).getTime() == "")
+				{
+					ParGrpRunners.get(i).setTime("DNF");
+					eventLog.add(ParGrpRunners.get(i).getTime());
+				}
+			}
+		}
 	}
 	
 	public void cancel()
@@ -544,6 +555,14 @@ public class ChronoTimer9000 {
 	{
 		if (power && raceInProgress)
 		{
+			if(mode == Modes.PARGRP)
+			{
+				dnf();
+				//saveToUSB();
+				//this.raceInProgress = false;
+				printResults();
+				return;
+			}
 			if(mode == Modes.GRP)
 			{
 				for(int i=0; i<eventLog.size(); i++){
@@ -604,6 +623,13 @@ public class ChronoTimer9000 {
 				for(int i=0; i<eventLog.size(); i++){
 					printString += (GrpRunners.get(i).getName() + " ");
 					printString += (eventLog.get(i)) + "\n";
+				}
+			}
+			else if(mode == Modes.PARGRP)
+			{
+				for(int i=0; i<eventLog.size(); i++){
+					printString += (ParGrpRunnersFinished.get(i).getName() + " ");//still need to add dnf's to ParGRPfinished
+					printString += (eventLog.get(i)) + "\n";//need to add runners to event log for pargrp
 				}
 			}
 			println(printString);

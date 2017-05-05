@@ -521,6 +521,7 @@ public class Emulator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"*");
+				ct.endRun();
 			}
 			});
 		numPad.add(btnAstrx);
