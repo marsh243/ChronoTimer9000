@@ -118,7 +118,6 @@ public class ChronoTimer9000 {
 		if(power == true)
 		{
 			power = false;
-			writeln("Switching off...");
 			frame.cbxTrig1.setEnabled(false);
 			frame.cbxTrig2.setEnabled(false);
 			frame.cbxTrig3.setEnabled(false);
@@ -135,6 +134,9 @@ public class ChronoTimer9000 {
 			frame.cbxTrig6.setSelected(false);
 			frame.cbxTrig7.setSelected(false);
 			frame.cbxTrig8.setSelected(false);
+			screen = 0;
+			screens[screen] = "";
+			updateScreen();
 		}
 		else
 		{
@@ -603,9 +605,9 @@ public class ChronoTimer9000 {
 		if (power)
 		{
 			if (printPower)
-				writeln("Turning off printer.");
+				writeln("Turning off printer...");
 			else
-				writeln("Turning on printer.");
+				writeln("Turning on printer...");
 			this.printPower = !this.printPower;
 		}
 	}
