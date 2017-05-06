@@ -23,16 +23,19 @@ public class Server {
 		
 			HttpServer server = HttpServer.create(new InetSocketAddress(8000),0);
 					// create a context to get the request to display the results
-			        server.createContext("/displayresults", new DisplayHandler());
+			server.createContext("/displayresults", new DisplayHandler());
 	
 			        // create a context to get the request for the POST
-			        server.createContext("/sendresults",new PostHandler());
-			        server.setExecutor(null); // creates a default executor
+			server.createContext("/sendresults",new PostHandler());
+			server.setExecutor(null); // creates a default executor
 	
 			        // get it going
-			        System.out.println("Starting Server...");
-			        server.start();
+			System.out.println("Starting Server...");
+			server.start();
 	}
+	static void createHTML(){
+   	 String url = "";
+    }
 	static class DisplayHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
 
@@ -51,7 +54,7 @@ public class Server {
             //<div class="floating-box">
             String response = "<!DOCTYPE html><html><head><style>" + style + "</style></head>";
             //create a table
-            response += "\n<table>\n<tr>\n<th>First Initial:<br></th>\n<th>Last Name:<br></th>\n<th>Bib Number:<br></th>\n<th>Time (in ms):<br></th>\n"; 
+            response += "\n<table>\n<tr>\n<th>Number:<br></th>\n<th>Time:<br></th>\n";//<th>Bib Number:<br></th>\n<th>Time (in ms):<br></th>\n"; 
 
             Gson g = new Gson();
             // set up the header

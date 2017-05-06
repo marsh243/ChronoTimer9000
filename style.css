@@ -1,8 +1,0 @@
-th {
-	background-color: #4CAF50;
-	color: black;
-}
-table, td{
-	border: 1px solid black;
-}
-tr:nth-child(even){background-color: #ffc1bc}
