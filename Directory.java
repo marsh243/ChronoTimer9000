@@ -14,6 +14,9 @@ public class Directory {
     public void add(LinkedList<Athlete> r)
     {
         //racers.add(r);
-        dp.add(r);
+    	ArrayList<Athlete> ra = new ArrayList<Athlete>();
+    	for (Athlete a : r)
+    		ra.add(a);
+        dp.add(ra);
     }
 }
