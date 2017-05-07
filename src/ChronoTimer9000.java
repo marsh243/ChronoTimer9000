@@ -858,18 +858,22 @@ public class ChronoTimer9000 {
 	}
 	
 	// Writes a string to the event log
-	private void write(String message)
+	public void write(String message)
 	{
-		screens[0] += message;
-		updateScreen();
+		if(power){
+			screens[0] += message;
+			updateScreen();
+		}
 		//frame.eventLog.setText(screens[0]);
 	}
 	
 	// Writes a string to the event log and ends the line
-	private void writeln(String message)
+	public void writeln(String message)
 	{
-		screens[0] += message + "\n";
-		updateScreen();
+		if(power){
+			screens[0] += message + "\n";
+			updateScreen();
+		}
 		//frame.eventLog.setText(screens[0]);
 	}
 
