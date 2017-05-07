@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class DirectoryProxy {
-    public void add(LinkedList<Athlete> r) {
+    public void add(ArrayList<Athlete> r) {
         try {
             //System.out.println("in the client");
 
@@ -55,7 +55,7 @@ public class DirectoryProxy {
         }
     }
 
-    private static String getJSON(LinkedList<Athlete> r) {
+    private static String getJSON(ArrayList<Athlete> r) {
         Gson g = new Gson();
         String emps = g.toJson(r);
 

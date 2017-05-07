@@ -68,8 +68,8 @@ public class Server {
                             }.getType());
                     //Collections.sort((List<T>) fromJson);
 
-                    for (Athlete r : fromJson) {
-                        response += "<tr>\n<td>" + (r.getName()).split(" ")[0] + "</td>\n<td>" + (r.getTime()).split(" ")[1] + "</td>\n</tr>\n"; //+ "</td>\n<td>" + r.getBib() + "</td>\n<td>" + r.getTime() + "</td>\n</tr>\n";
+                    for (Athlete a : fromJson) {
+                        response += "<tr>\n<td>" + a.getName()+ "</td>\n<td>" + a.getTime() + "</td>\n</tr>\n";
                     }
                 }
             } catch (JsonSyntaxException e) {
