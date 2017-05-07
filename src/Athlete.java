@@ -18,8 +18,13 @@ public class Athlete implements Comparable<Object>{
 	}
 	
 	public String getTime(){
-		if (this.time == "")
-			return "DNF";
+//		if (this.time == "")
+//			return "DNF";
+		return this.time;
+	}
+	
+	public String parGRPGetTime()
+	{
 		return this.time;
 	}
 	

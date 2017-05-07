@@ -331,6 +331,7 @@ public class ChronoTimer9000 {
 							}
 							ParGrpTimer.ParGRPStartTime(ParGrpRunners.size());
 							parGrpStarted = true;
+							displayRace();
 							//runner in index 0 is assigned to this channel
 							//start race
 						}
@@ -852,7 +853,8 @@ public class ChronoTimer9000 {
 					for(int i = 0; i < displayRunners.size(); i++)
 					{
 						ParGrpDisplayRunners[i] = displayRunners.get(i).getNumber();
-						if(displayRunners.get(i).getTime() == "")
+						//String x = displayRunners.get(i).getTime();
+						if(displayRunners.get(i).parGRPGetTime() == "")
 						{
 							standings += ParGrpDisplayRunners[i]+"\n";//need to add to displayRunners when start is triggered
 						}
