@@ -82,6 +82,7 @@ public class Emulator extends JFrame {
 	 * Create the frame.
 	 */
 	public Emulator() { //The GUI element
+		String[] sensors = {"none", "button", "trip", "photogate"};
 		d = new Directory();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,7 +94,6 @@ public class Emulator extends JFrame {
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel);
-		contentPane.add(new JPanel());
 		JPanel powerfunctions = new JPanel();
 		panel.add(powerfunctions);
 		powerfunctions.setLayout(new GridLayout(4, 1, 0, 0));
@@ -411,6 +411,169 @@ public class Emulator extends JFrame {
 		});
 		arrows.add(button_2, BorderLayout.EAST);
 		
+		JPanel Channels = new JPanel();
+		contentPane.add(Channels, BorderLayout.SOUTH);
+		Channels.setLayout(new GridLayout(2, 4, 0, 0));
+		JList Ch1 = new JList(sensors);
+		Ch1.setSelectedValue(sensors[0], false);
+		Ch1.setName("Ch1");
+		Ch1.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch1.getSelectedIndex()==0){
+						ct.writeln(Ch1.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch1.getName()+" "+Ch1.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch1);
+		
+		JList Ch2 = new JList(sensors);
+		Ch2.setSelectedValue(sensors[0], false);
+		Ch2.setName("Ch2");
+		Ch2.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch2.getSelectedIndex()==0){
+						ct.writeln(Ch2.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch2.getName()+" "+Ch2.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch2);
+		
+		JList Ch3 = new JList(sensors);
+		Ch3.setSelectedValue(sensors[0], false);
+		Ch3.setName("Ch3");
+		Ch3.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch3.getSelectedIndex()==0){
+						ct.writeln(Ch3.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch3.getName()+" "+Ch3.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch3);
+		
+		JList Ch4 = new JList(sensors);
+		Ch4.setSelectedValue(sensors[0], false);
+		Ch4.setName("Ch4");
+		Ch4.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch4.getSelectedIndex()==0){
+						ct.writeln(Ch4.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch4.getName()+" "+Ch4.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch4);
+		
+		JList Ch5 = new JList(sensors);
+		Ch5.setSelectedValue(sensors[0], false);
+		Ch5.setName("Ch5");
+		Ch5.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch5.getSelectedIndex()==0){
+						ct.writeln(Ch5.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch5.getName()+" "+Ch5.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch5);
+		
+		JList Ch6 = new JList(sensors);
+		Ch6.setSelectedValue(sensors[0], false);
+		Ch6.setName("Ch6");
+		Ch6.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch6.getSelectedIndex()==0){
+						ct.writeln(Ch6.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch6.getName()+" "+Ch6.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch6);
+		
+		JList Ch7 = new JList(sensors);
+		Ch7.setSelectedValue(sensors[0], false);
+		Ch7.setName("Ch7");
+		Ch7.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch7.getSelectedIndex()==0){
+						ct.writeln(Ch7.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch7.getName()+" "+Ch7.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch7);
+		
+		JList Ch8 = new JList(sensors);
+		Ch8.setSelectedValue(sensors[0], false);
+		Ch8.setName("Ch8");
+		Ch8.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch8.getSelectedIndex()==0){
+						ct.writeln(Ch8.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch8.getName()+" "+Ch8.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch8);
+		
 		
 		eventLog = new JTextArea("Screen:\n", 3, 0);
 		eventLog.setLineWrap(true);
@@ -582,147 +745,6 @@ public class Emulator extends JFrame {
 		JScrollPane scrollPane_1 = new JScrollPane(printer);
 		scrollPane_1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane_1);
-		
-		JPanel Channels = new JPanel();
-		contentPane.add(Channels, BorderLayout.SOUTH);
-		Channels.setLayout(new GridLayout(2, 4, 0, 0));
-		
-		String[] sensors = {"none", "button", "trip", "photogate"};
-		JList Ch1 = new JList(sensors);
-		Ch1.setName("Ch1");
-		Ch1.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch1.getSelectedIndex()==0){
-					ct.writeln(Ch1.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch1.getName()+" "+Ch1.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch1);
-		
-		JList Ch2 = new JList(sensors);
-		Ch2.setName("Ch2");
-		Ch2.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch2.getSelectedIndex()==0){
-					ct.writeln(Ch2.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch2.getName()+" "+Ch2.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch2);
-		
-		JList Ch3 = new JList(sensors);
-		Ch3.setName("Ch3");
-		Ch3.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch3.getSelectedIndex()==0){
-					ct.writeln(Ch3.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch3.getName()+" "+Ch3.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch3);
-		
-		JList Ch4 = new JList(sensors);
-		Ch4.setName("Ch4");
-		Ch4.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch4.getSelectedIndex()==0){
-					ct.writeln(Ch4.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch4.getName()+" "+Ch4.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch4);
-		
-		JList Ch5 = new JList(sensors);
-		Ch5.setName("Ch5");
-		Ch5.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch5.getSelectedIndex()==0){
-					ct.writeln(Ch5.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch5.getName()+" "+Ch5.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch5);
-		
-		JList Ch6 = new JList(sensors);
-		Ch6.setName("Ch6");
-		Ch6.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch6.getSelectedIndex()==0){
-					ct.writeln(Ch6.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch6.getName()+" "+Ch6.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch6);
-		
-		JList Ch7 = new JList(sensors);
-		Ch7.setName("Ch7");
-		Ch7.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch7.getSelectedIndex()==0){
-					ct.writeln(Ch7.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch7.getName()+" "+Ch7.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch7);
-		
-		JList Ch8 = new JList(sensors);
-		Ch8.setName("Ch8");
-		Ch8.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(Ch8.getSelectedIndex()==0){
-					ct.writeln(Ch8.getName()+" "+"Sensor disconnected.");
-				}
-				else{
-					ct.writeln(Ch8.getName()+" "+Ch8.getSelectedValue()+" connected.");
-				}
-			}
-			
-		});
-		Channels.add(Ch8);
 	}
 	
 }
