@@ -19,7 +19,6 @@ public class Timer {
 		
 		grpRunTimes = new LinkedList();
 		grpRunTimes.Start = new Node();//dummy node
-		//grpRunTimes.currentStart = grpRunTimes.Start;
 		this.grpStartTime = -1;
 		
 		parGrpRunTimes = new LinkedList();
@@ -168,8 +167,6 @@ public class Timer {
 			runTimes.trailer.nextLink = null;
 			runTimes.currentStart = runTimes.trailer;
 		}
-		//runTimes.trailer = runTimes.currentFinish;
-		//runTimes.currentStart.nextLink = null;
 		runTimes.size--;
 	}
 	
@@ -255,16 +252,5 @@ public class Timer {
 	            	return r.findIndex;
 	            }
 	           
-	      }//end LinkedList class
-	      
-//	      public class ParIndTimer extends Timer
-//	      {
-//	    	  public ParIndTimer()
-//	    	  {
-//	    		  Timer runTimes = new Timer();
-//	    	  }
-//	    	  
-//	    	  
-//	      }
-	      
+	      }//end LinkedList class	      
 	}//end Timer Class
