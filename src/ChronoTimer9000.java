@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 //import Timer;
 public class ChronoTimer9000 {
 	
-	private boolean power, printer;
+	private boolean power;
 	private ArrayList<String> eventLog;
 	private boolean[] channels;
 	private boolean raceInProgress;
@@ -51,7 +51,6 @@ public class ChronoTimer9000 {
 	{
 		this.power = false;
 		this.printPower = false;
-		this.printer = false;
 		this.grpStarted = false;
 		this.parGrpStarted = false;
 		this.eventLog = new ArrayList<String>();
@@ -142,7 +141,7 @@ public class ChronoTimer9000 {
 		{
 			writeln("Switching on...");
 			this.power = true;
-			this.printer = false;
+			this.printPower = false;
 			this.eventLog = new ArrayList<String>();
 			this.indtimer = new Timer();
 			this.parTimer1 = new Timer();
@@ -609,11 +608,14 @@ public class ChronoTimer9000 {
 	public void printPower(){
 		if (power)
 		{
-			if (printPower)
+			if (printPower){
 				writeln("Turning off printer...");
-			else
+				printPower=false;
+			}
+			else{
 				writeln("Turning on printer...");
-			this.printPower = !this.printPower;
+				printPower=true;
+			}
 		}
 	}
 	
@@ -723,7 +725,7 @@ public class ChronoTimer9000 {
 		if (power)
 		{
 			this.power = true;
-			this.printer = false;
+			this.printPower = false;
 			this.eventLog = new ArrayList<String>();
 			this.indtimer = new Timer();
 			this.runners = new LinkedList<Athlete>();
@@ -896,7 +898,9 @@ public class ChronoTimer9000 {
 	// Writes a line with the printer.
 	private void println(String message)
 	{
-		frame.printer.setText(frame.printer.getText() + message + "\n");
+		if(printPower){
+			frame.printer.setText(frame.printer.getText() + message + "\n");
+		}
 	}
 
 	private void updateScreen()
