@@ -85,20 +85,20 @@ public class Emulator extends JFrame {
 		String[] sensors = {"none", "button", "trip", "photogate"};
 		d = new Directory();
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //main window
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));  //create the main panel
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(2, 2));
+		contentPane.setLayout(new GridLayout(2, 2));  //a clean square grid
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel);
-		JPanel powerfunctions = new JPanel();
+		JPanel powerfunctions = new JPanel();  //handles the buttons "power" "function" "swap" and "PrintPower"
 		panel.add(powerfunctions);
 		powerfunctions.setLayout(new GridLayout(4, 1, 0, 0));
 		
-		JButton btnPower = new JButton("Power");
+		JButton btnPower = new JButton("Power"); //self explanatorily powers the ct
 		btnPower.addActionListener(new ActionListener(){
 
 			@Override
@@ -109,7 +109,7 @@ public class Emulator extends JFrame {
 		});
 		powerfunctions.add(btnPower);
 		
-		JButton btnFunction = new JButton("Function");
+		JButton btnFunction = new JButton("Function"); //rolls through the modes to choose from in order
 		btnFunction.addActionListener(new ActionListener(){
 
 			@Override
@@ -121,7 +121,7 @@ public class Emulator extends JFrame {
 		});
 		powerfunctions.add(btnFunction);
 		
-		JButton btnSwap = new JButton("Swap");
+		JButton btnSwap = new JButton("Swap"); //swaps runners in IND queue
 		btnSwap.addActionListener(new ActionListener(){
 
 			@Override
@@ -132,7 +132,7 @@ public class Emulator extends JFrame {
 		});		
 		powerfunctions.add(btnSwap);
 		
-		JButton btnPrintpower = new JButton("PrintPower");
+		JButton btnPrintpower = new JButton("PrintPower"); //enables or disables the printer
 		btnPrintpower.addActionListener(new ActionListener(){
 
 			@Override
@@ -143,7 +143,7 @@ public class Emulator extends JFrame {
 		});
 		powerfunctions.add(btnPrintpower);
 		
-		JPanel triggers = new JPanel();
+		JPanel triggers = new JPanel();  //panel for the start finish and enable disable channels
 		panel.add(triggers);
 		triggers.setLayout(new GridLayout(6, 4, 0, 0));
 		
@@ -170,7 +170,7 @@ public class Emulator extends JFrame {
 		textField_6.setEditable(false);
 		textField_6.setColumns(1);
 		
-		JButton btnStart1 = new JButton("Start1");
+		JButton btnStart1 = new JButton("Start1"); //trigger the channel
 		btnStart1.addActionListener(new ActionListener(){
 
 			@Override
@@ -212,7 +212,7 @@ public class Emulator extends JFrame {
 			}
 			
 		});
-		triggers.add(btnStart_3);
+		triggers.add(btnStart_3);  //enable or disable the channel
 		
 		cbxTrig1 = new JCheckBox("1 Enabled");
 		cbxTrig1.setEnabled(false);
@@ -354,7 +354,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnFinish_2);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JTextField(); //for display
 		triggers.add(textField_1);
 		textField_1.setEditable(false);
 		textField_1.setText("2");
@@ -377,7 +377,7 @@ public class Emulator extends JFrame {
 		textField_7.setEditable(false);
 		textField_7.setColumns(1);
 		
-		JPanel arrows = new JPanel();
+		JPanel arrows = new JPanel(); //handles arrow keys
 		panel.add(arrows);
 		arrows.setLayout(new BorderLayout(0, 0));
 		
@@ -387,7 +387,7 @@ public class Emulator extends JFrame {
 		JButton btnV = new JButton("v");
 		arrows.add(btnV, BorderLayout.SOUTH);
 		
-		JButton button_1 = new JButton("<");
+		JButton button_1 = new JButton("<");  //the left and right arrows switch between displays
 		button_1.addActionListener(new ActionListener(){
 
 			@Override
@@ -411,7 +411,7 @@ public class Emulator extends JFrame {
 		});
 		arrows.add(button_2, BorderLayout.EAST);
 		
-		JPanel Channels = new JPanel();
+		JPanel Channels = new JPanel();  //panel of sensors for channels
 		contentPane.add(Channels, BorderLayout.SOUTH);
 		Channels.setLayout(new GridLayout(2, 4, 0, 0));
 		JList Ch1 = new JList(sensors);
@@ -420,7 +420,7 @@ public class Emulator extends JFrame {
 		Ch1.addListSelectionListener(new ListSelectionListener(){
 
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
+			public void valueChanged(ListSelectionEvent e) {  //each channel displays a text dialogue upon connect/disconnect
 				if(!e.getValueIsAdjusting()){
 					if(Ch1.getSelectedIndex()==0){
 						ct.writeln(Ch1.getName()+" "+"Sensor disconnected.");
@@ -575,7 +575,7 @@ public class Emulator extends JFrame {
 		Channels.add(Ch8);
 		
 		
-		eventLog = new JTextArea("Screen:\n", 3, 0);
+		eventLog = new JTextArea("Screen:\n", 3, 0);  //This is the default display
 		eventLog.setLineWrap(true);
 		eventLog.setEditable(false);
 		eventLog.setBackground(Color.BLACK);
@@ -585,7 +585,7 @@ public class Emulator extends JFrame {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane);
 		
-		JPanel numPad = new JPanel();
+		JPanel numPad = new JPanel();  //numpad # is enter key
 		panel.add(numPad);
 		numPad.setLayout(new GridLayout(4,3));
 		
@@ -739,7 +739,7 @@ public class Emulator extends JFrame {
 		});
 		numPad.add(brnPnd);
 		
-		printer = new JTextArea("Printer:\n", 3, 0);
+		printer = new JTextArea("Printer:\n", 3, 0); //This is the printer, as a display for testing.
 		printer.setLineWrap(false);
 		printer.setEditable(false);
 		JScrollPane scrollPane_1 = new JScrollPane(printer);
