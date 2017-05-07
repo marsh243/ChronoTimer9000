@@ -509,6 +509,7 @@ public class ChronoTimer9000 {
 				{
 					ParGrpRunners.get(i).setTime("DNF");
 					eventLog.add(ParGrpRunners.get(i).getTime());
+					displayToServer.add(ParGrpRunners.get(i));
 				}
 			}
 		}
