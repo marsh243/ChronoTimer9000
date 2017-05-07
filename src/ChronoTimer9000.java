@@ -488,6 +488,7 @@ public class ChronoTimer9000 {
 					grpRunnerCounter++;
 					grpRunnersFinished++;
 					eventLog.add(GrpRunners.getLast().getTime());
+					displayToServer.add(GrpRunners.getLast());
 				}
 				else
 				{
@@ -496,6 +497,7 @@ public class ChronoTimer9000 {
 					grpRunnersFinished++;
 					grpRunnerCounter++;
 					eventLog.add(GrpRunners.getLast().getTime());
+					displayToServer.add(GrpRunners.getLast());
 				}
 			}
 		}
