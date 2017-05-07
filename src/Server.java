@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -66,7 +67,7 @@ public class Server {
                     ArrayList<Athlete> fromJson = g.fromJson(sharedResponse,
                             new TypeToken<Collection<Athlete>>() {
                             }.getType());
-                    //Collections.sort((List<T>) fromJson);
+                    Collections.sort((ArrayList<Athlete>) fromJson);
                     int place = 1;
                     for (Athlete a : fromJson) {
                         response += "<tr>\n<td>" + place++ + "</td>\n<td>" + a.getNumber() + 

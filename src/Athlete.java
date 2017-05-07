@@ -1,6 +1,6 @@
 
 
-public class Athlete {
+public class Athlete implements Comparable<Object>{
 	private String number;
 	String time;
 	public Athlete(String name, String time){
@@ -30,4 +30,19 @@ public class Athlete {
 	public String toString(){
 		return (number+"\n"+time);
 	}
+	
+	@Override
+	public int compareTo(Object o) {
+		if (o instanceof Athlete) {
+			Athlete other = (Athlete) o;
+			
+			if (other.getTime() == "DNF")
+				return -1;
+			else if (time == "DNF")
+				return 1;
+			return time.compareTo(other.getTime());
+		}
+		return 0;
+	}
+
 }
