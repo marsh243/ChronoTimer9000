@@ -11,7 +11,7 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class DirectoryProxy {
+public class ResultsServerProxy {
     public void add(ArrayList<Athlete> r) {
         try {
             //System.out.println("in the client");
@@ -51,7 +51,7 @@ public class DirectoryProxy {
             //System.out.println("Server: " + sb);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.print("Connection to server failed.");
         }
     }
 

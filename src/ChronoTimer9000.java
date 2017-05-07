@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 public class ChronoTimer9000 {
 	
 	private boolean power, printer;
+	private String numPad; // Records input from the numpad 
 	private ArrayList<String> eventLog;
 	private boolean[] channels;
 	private boolean raceInProgress;
@@ -46,10 +47,12 @@ public class ChronoTimer9000 {
 	private String[] screens;
 	private String[] ParGrpDisplayRunners;
 	private int screen;
+	public ResultsClient client;
 	
 	public ChronoTimer9000(Emulator frame)
 	{
 		this.power = false;
+		numPad = "";
 		this.printPower = false;
 		this.printer = false;
 		this.grpStarted = false;
@@ -75,6 +78,7 @@ public class ChronoTimer9000 {
 		this.grpRunnersFinished = 0;
 		this.grpRunnerCounter = 1;
 		this.displayRunnerCounter = 0;
+		client = new ResultsClient();
 		usb = new USBdevice();
 		this.ParGrpDisplayRunners = new String[8];
 		for(int i = 0; i < 8; i++)
@@ -755,18 +759,34 @@ public class ChronoTimer9000 {
 		updateScreen();
 	}
 	
-	public void enter(String s)
+	public void enter()
 	{
 		if (parGrpStarted || grpStarted || numStarted > 0)
 		{
 			dnf();			
 		}
-		else if(s != "")
+		else if(numPad != "")
 		{
-			addRacer(s);
+			writeln("");
+			addRacer(numPad);
+			numPad = "";
 		}
 	}
 	
+	/*Ends the current run and posts results to the server*/
+	public void post()
+	{
+		LinkedList<Athlete> results = endRun();
+		client.add(results);
+
+	}
+	
+	/*Receives and interprets keypad input*/
+	public void inputNumber(String num)
+	{
+		numPad += num;
+		write (num);
+	}
 	
 	/*
 	 * Helper Methods section
@@ -912,6 +932,7 @@ public class ChronoTimer9000 {
 	// Cleans up unresolved data after switching modes.
 	private void clean()
 	{
+		this.numPad = "";
 		this.grpStarted = false;
 		this.eventLog = new ArrayList<String>();
 		this.indtimer = new Timer();

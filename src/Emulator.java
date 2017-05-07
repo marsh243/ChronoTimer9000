@@ -37,10 +37,12 @@ import javax.swing.JScrollPane;
 public class Emulator extends JFrame {
     
 	static ChronoTimer9000 ct; //to run the emulator we need a chronotimer and a directory
-	public Directory d;
+	
 
 	public JPanel contentPane; //list of fields to initialize
-	public JTextField textField;
+	
+	// Labels for the trigger buttons
+	public JTextField textField_0;
 	public JTextField textField_1;
 	public JTextField textField_2;
 	public JTextField textField_3;
@@ -48,8 +50,12 @@ public class Emulator extends JFrame {
 	public JTextField textField_5;
 	public JTextField textField_6;
 	public JTextField textField_7;
+	
+	// Text areas for the main output and printer
 	public JTextArea eventLog;
 	public JTextArea printer;
+	
+	// Checkboxes to enable/disable the triggers
 	public JCheckBox cbxTrig1;
 	public JCheckBox cbxTrig2;
 	public JCheckBox cbxTrig3;
@@ -58,13 +64,11 @@ public class Emulator extends JFrame {
 	public JCheckBox cbxTrig6;
 	public JCheckBox cbxTrig7;
 	public JCheckBox cbxTrig8;
-
-	private String runner = "";
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) { //runs the GUI and starts the emulation
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -82,8 +86,10 @@ public class Emulator extends JFrame {
 	 * Create the frame.
 	 */
 	public Emulator() { //The GUI element
+		
+		// Types of sensors
 		String[] sensors = {"none", "button", "trip", "photogate"};
-		d = new Directory();
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
@@ -147,11 +153,13 @@ public class Emulator extends JFrame {
 		panel.add(triggers);
 		triggers.setLayout(new GridLayout(6, 4, 0, 0));
 		
-		textField = new JTextField();
-		triggers.add(textField);
-		textField.setEditable(false);
-		textField.setText("1");
-		textField.setColumns(1);
+		/*Setup trigger controls*/
+		
+		textField_0 = new JTextField();
+		triggers.add(textField_0);
+		textField_0.setEditable(false);
+		textField_0.setText("1");
+		textField_0.setColumns(1);
 		
 		textField_2 = new JTextField();
 		triggers.add(textField_2);
@@ -170,7 +178,7 @@ public class Emulator extends JFrame {
 		textField_6.setEditable(false);
 		textField_6.setColumns(1);
 		
-		JButton btnStart1 = new JButton("Start1");
+		JButton btnStart1 = new JButton("Start1 ");
 		btnStart1.addActionListener(new ActionListener(){
 
 			@Override
@@ -181,7 +189,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnStart1);
 		
-		JButton btnStart_1 = new JButton("Start3");
+		JButton btnStart_1 = new JButton("Start 3");
 		btnStart_1.addActionListener(new ActionListener(){
 
 			@Override
@@ -192,7 +200,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnStart_1);
 		
-		JButton btnStart_2 = new JButton("Start5");
+		JButton btnStart_2 = new JButton("Start 5");
 		btnStart_2.addActionListener(new ActionListener(){
 
 			@Override
@@ -203,7 +211,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnStart_2);
 		
-		JButton btnStart_3 = new JButton("Start7");
+		JButton btnStart_3 = new JButton("Start 7");
 		btnStart_3.addActionListener(new ActionListener(){
 
 			@Override
@@ -310,7 +318,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(cbxTrig8);
 		
-		JButton btnStart = new JButton("Finish2");
+		JButton btnStart = new JButton("Finish 2");
 		btnStart.addActionListener(new ActionListener(){
 
 			@Override
@@ -321,7 +329,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnStart);
 		
-		JButton btnFinish = new JButton("Finish4");
+		JButton btnFinish = new JButton("Finish 4");
 		btnFinish.addActionListener(new ActionListener(){
 
 			@Override
@@ -332,7 +340,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnFinish);
 		
-		JButton btnFinish_1 = new JButton("Finish6");
+		JButton btnFinish_1 = new JButton("Finish 6");
 		btnFinish_1.addActionListener(new ActionListener(){
 
 			@Override
@@ -343,7 +351,7 @@ public class Emulator extends JFrame {
 		});
 		triggers.add(btnFinish_1);
 		
-		JButton btnFinish_2 = new JButton("Finish8");
+		JButton btnFinish_2 = new JButton("Finish 8");
 		btnFinish_2.addActionListener(new ActionListener(){
 
 			@Override
@@ -377,6 +385,8 @@ public class Emulator extends JFrame {
 		textField_7.setEditable(false);
 		textField_7.setColumns(1);
 		
+		/*Setup arrows*/
+		
 		JPanel arrows = new JPanel();
 		panel.add(arrows);
 		arrows.setLayout(new BorderLayout(0, 0));
@@ -398,7 +408,6 @@ public class Emulator extends JFrame {
 		});
 		arrows.add(button_1, BorderLayout.WEST);
 		
-		
 		JButton button_2 = new JButton(">");
 		button_2.addActionListener(new ActionListener(){
 
@@ -411,9 +420,12 @@ public class Emulator extends JFrame {
 		});
 		arrows.add(button_2, BorderLayout.EAST);
 		
+		/*Create Channel inputs - Allows user to select type of sensor*/
+		
 		JPanel Channels = new JPanel();
 		contentPane.add(Channels, BorderLayout.SOUTH);
 		Channels.setLayout(new GridLayout(2, 4, 0, 0));
+		
 		JList Ch1 = new JList(sensors);
 		Ch1.setSelectedValue(sensors[0], false);
 		Ch1.setName("Ch1");
@@ -585,6 +597,8 @@ public class Emulator extends JFrame {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPane);
 		
+		/*Create a a number pad with buttons*/
+		
 		JPanel numPad = new JPanel();
 		panel.add(numPad);
 		numPad.setLayout(new GridLayout(4,3));
@@ -594,8 +608,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"1");
-				runner += "1";
+				ct.inputNumber("1");
 			}
 			
 		});
@@ -606,8 +619,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"2");
-				runner += "2";
+				ct.inputNumber("2");
 			}
 			
 		});
@@ -619,8 +631,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"3");
-				runner += "3";
+				ct.inputNumber("3");
 			}
 			
 		});
@@ -632,8 +643,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"4");
-				runner += "4";
+				ct.inputNumber("4");
 			}
 			});
 		numPad.add(btnNum4);
@@ -644,8 +654,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"5");
-				runner += "5";
+				ct.inputNumber("5");
 			}
 			});
 		numPad.add(btnNum5);
@@ -656,8 +665,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"6");
-				runner += "6";
+				ct.inputNumber("6");
 			}
 			});
 		numPad.add(btnNum6);
@@ -668,8 +676,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"7");
-				runner += "7";
+				ct.inputNumber("7");
 			}
 			});
 		numPad.add(btnNum7);
@@ -680,8 +687,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"8");
-				runner += "8";
+				ct.inputNumber("8");
 			}
 			});
 		numPad.add(btnNum8);
@@ -692,21 +698,19 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"9");
-				runner += "9";
+				ct.inputNumber("9");
 			}
 			});
 		numPad.add(btnNum9);
 		
 		JButton btnAstrx = new JButton("*");
 		btnAstrx.addActionListener(new ActionListener(){
-		LinkedList<Athlete> a = new LinkedList<Athlete>();
+		
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"*");
-				this.a = ct.endRun();
-				d.add(this.a);
+				ct.writeln("*");
+				ct.post();
 			}
 			});
 		numPad.add(btnAstrx);
@@ -717,8 +721,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"0");
-				runner += "0";
+				ct.inputNumber("0");
 			}
 			});
 		numPad.add(btnNum0);
@@ -729,9 +732,7 @@ public class Emulator extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				eventLog.setText(eventLog.getText()+"\n");
-				ct.enter(runner);
-				runner = "";
+				ct.enter();
 			}
 		});
 		numPad.add(brnPnd);

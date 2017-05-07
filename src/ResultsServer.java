@@ -16,7 +16,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 
-public class Server {
+public class ResultsServer {
 	static String sharedResponse = "";
     static boolean gotMessageFlag = false;
 	public static void main(String[] args) throws Exception	

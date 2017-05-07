@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Directory {
+public class ResultsClient {
     //private ArrayList<Athlete> racers;
-    DirectoryProxy dp;
+    ResultsServerProxy dp;
 
-    public Directory()
+    public ResultsClient()
     {
         //racers = new ArrayList<Athlete>();
-        dp = new DirectoryProxy();
+        dp = new ResultsServerProxy();
     }
 
     public void add(LinkedList<Athlete> r)
