@@ -1,1 +1,1 @@
-[{"name":"1","time":"0:0:2.75"},{"name":"4","time":"0:0:2.77"},{"name":"7","time":"0:0:2.77"}]
+[{"number":"1","time":"DNF"},{"number":"2","time":"DNF"},{"number":"6","time":"0:0:4.60"}]

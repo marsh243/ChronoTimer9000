@@ -253,7 +253,7 @@ public class ChronoTimer9000 {
 							finishedRunners.add(currentlyRunning1.removeFirst());
 							finishedRunners.getLast().setTime(parTimer1.finish());
 							eventLog.add(finishedRunners.getLast().getTime());
-							println((" " +finishedRunners.getLast().getName() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
+							println((" " +finishedRunners.getLast().getNumber() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
 							displayToServer.addLast(finishedRunners.getLast());
 						}
 						else if(i == 4 && numFinished < numRunners)
@@ -266,7 +266,7 @@ public class ChronoTimer9000 {
 							finishedRunners.add(currentlyRunning2.removeFirst());
 							finishedRunners.getLast().setTime(parTimer2.finish());
 							eventLog.add(finishedRunners.getLast().getTime());
-							println((" " +finishedRunners.getLast().getName() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
+							println((" " +finishedRunners.getLast().getNumber() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
 							displayToServer.addLast(finishedRunners.getLast());
 						}
 				}
@@ -297,7 +297,7 @@ public class ChronoTimer9000 {
 								grpRunnerCounter++;
 								grpRunnersFinished++;
 								eventLog.add(GrpRunners.getLast().getTime());
-								println((" " + GrpRunners.getLast().getName() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
+								println((" " + GrpRunners.getLast().getNumber() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 								displayToServer.addLast(GrpRunners.getLast());
 							}
 							else
@@ -308,7 +308,7 @@ public class ChronoTimer9000 {
 								grpRunnerCounter++;
 								eventLog.add(GrpRunners.getLast().getTime());
 								displayRunners.remove(displayRunnerCounter);
-								println((" " + GrpRunners.getLast().getName() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
+								println((" " + GrpRunners.getLast().getNumber() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 								displayToServer.addLast(GrpRunners.getLast());
 							}
 						}
@@ -338,7 +338,7 @@ public class ChronoTimer9000 {
 						{
 							
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i- 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();
@@ -350,7 +350,7 @@ public class ChronoTimer9000 {
 						if(numRunners >= 2 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i- 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();
@@ -362,7 +362,7 @@ public class ChronoTimer9000 {
 						if(numRunners >= 3 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();
@@ -374,7 +374,7 @@ public class ChronoTimer9000 {
 						if(numRunners >= 4 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();
@@ -386,7 +386,7 @@ public class ChronoTimer9000 {
 						if(numRunners >= 5 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();displayToServer.addLast(ParGrpRunners.get(i - 1));
@@ -397,7 +397,7 @@ public class ChronoTimer9000 {
 						if(numRunners >= 6 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();
@@ -409,7 +409,7 @@ public class ChronoTimer9000 {
 						if(numRunners >= 7 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();
@@ -421,7 +421,7 @@ public class ChronoTimer9000 {
 						if(numRunners >= 8 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
-							println((" " + ParGrpRunners.get(i - 1).getName() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
+							println((" " + ParGrpRunners.get(i - 1).getNumber() +": " + ParGrpRunners.get(i -1).getTime()).replaceAll("\n", ""));
 							ParGrpRunnersFinished.add(displayRunners.get(i - 1));
 							ParGrpDisplayRunners[i-1] = "";
 							displayRace();
@@ -439,11 +439,14 @@ public class ChronoTimer9000 {
 	
 	public void dnf()
 	{
-		if (power && raceInProgress && numFinished < runners.size() && mode == Modes.IND)
+		if (power && raceInProgress && numFinished < runners.size() && numStarted > numFinished && mode == Modes.IND)
 		{
 			numFinished++;
 			indtimer.DNF();
 			eventLog.add("DNF");
+			displayToServer.addLast(runners.get(numFinished - 1));
+			displayToServer.getLast().setTime("DNF");
+			println((runners.get(numFinished - 1) + ": "  + "DNF").replaceAll("\n", ""));
 		}
 		else if(power && raceInProgress && numFinished < numRunners && mode == Modes.PARIND)
 		{
@@ -454,6 +457,7 @@ public class ChronoTimer9000 {
 				parTimer1.DNF();
 				finishedRunners.getLast().setTime("DNF");
 				eventLog.add(finishedRunners.getLast().getTime());
+				displayToServer.addLast(finishedRunners.getLast());
 			}
 			else if(currentlyRunning2.contains(currentlyRunning.getFirst()))
 			{
@@ -462,6 +466,7 @@ public class ChronoTimer9000 {
 				parTimer2.DNF();
 				finishedRunners.getLast().setTime("DNF");
 				eventLog.add(finishedRunners.getLast().getTime());
+				displayToServer.addLast(finishedRunners.getLast());
 			}
 		}
 		else if(power && raceInProgress && mode == Modes.GRP)
@@ -625,28 +630,28 @@ public class ChronoTimer9000 {
 			else if(mode == Modes.IND)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					printString += (runners.get(i).getName() + " ");
+					printString += (runners.get(i).getNumber() + " ");
 					printString += (eventLog.get(i)) + "\n";
 				}
 			}
 			else if(mode == Modes.PARIND)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					printString += (finishedRunners.get(i).getName() + " ");
+					printString += (finishedRunners.get(i).getNumber() + " ");
 					printString += (eventLog.get(i)) + "\n";
 				}
 			}
 			else if(mode == Modes.GRP)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					printString += (GrpRunners.get(i).getName() + " ");
+					printString += (GrpRunners.get(i).getNumber() + " ");
 					printString += (eventLog.get(i)) + "\n";
 				}
 			}
 			else if(mode == Modes.PARGRP)
 			{
 				for(int i=0; i<eventLog.size(); i++){
-					printString += (ParGrpRunnersFinished.get(i).getName() + " ");//still need to add dnf's to ParGRPfinished
+					printString += (ParGrpRunnersFinished.get(i).getNumber() + " ");//still need to add dnf's to ParGRPfinished
 					printString += (eventLog.get(i)) + "\n";//need to add runners to event log for pargrp
 				}
 			}
@@ -746,6 +751,17 @@ public class ChronoTimer9000 {
 		updateScreen();
 	}
 	
+	public void enter(String s)
+	{
+		if (parGrpStarted || grpStarted || numStarted > 0)
+		{
+			dnf();			
+		}
+		else if(s != "")
+		{
+			addRacer(s);
+		}
+	}
 	
 	
 	/*
@@ -766,7 +782,7 @@ public class ChronoTimer9000 {
 					standings += runners.get(i);
 				}
 				standings += "\nRacing:\n";
-				for(int i = 0; i < runners.size() && i < numStarted - numFinished ; i++)
+				for(int i = numFinished; i < numStarted; i++)
 				{
 					standings += runners.get(i) + "\n";
 				}
@@ -832,7 +848,7 @@ public class ChronoTimer9000 {
 				{
 					for(int i = 0; i < displayRunners.size(); i++)
 					{
-						ParGrpDisplayRunners[i] = displayRunners.get(i).getName();
+						ParGrpDisplayRunners[i] = displayRunners.get(i).getNumber();
 						if(displayRunners.get(i).getTime() == "")
 						{
 							standings += ParGrpDisplayRunners[i]+"\n";//need to add to displayRunners when start is triggered
@@ -841,7 +857,7 @@ public class ChronoTimer9000 {
 					standings += "\nFinished:\n";
 					for(int j = 0; j < ParGrpRunnersFinished.size(); j++)
 					{
-						standings += ParGrpRunnersFinished.get(j).getName() + "\n";
+						standings += ParGrpRunnersFinished.get(j).getNumber() + "\n";
 					}
 				}
 			}

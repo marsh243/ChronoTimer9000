@@ -567,11 +567,8 @@ public class Emulator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eventLog.setText(eventLog.getText()+"\n");
-				if (runner != "")
-				{
-					ct.addRacer(runner);
-					runner = "";
-				}
+				ct.enter(runner);
+				runner = "";
 			}
 		});
 		numPad.add(brnPnd);

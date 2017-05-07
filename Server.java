@@ -54,7 +54,7 @@ public class Server {
             //<div class="floating-box">
             String response = "<!DOCTYPE html><html><head><style>" + style + "</style></head>";
             //create a table
-            response += "\n<table>\n<tr>\n<th>Number:<br></th>\n<th>Time:<br></th>\n";//<th>Bib Number:<br></th>\n<th>Time (in ms):<br></th>\n"; 
+            response += "\n<table>\n<tr>\n<th>Place:<br></th>\n<th>Bib Number:<br></th>\n<th>Name:<br></th>\n<th>Time:<br></th>\n"; 
 
             Gson g = new Gson();
             // set up the header
@@ -67,9 +67,10 @@ public class Server {
                             new TypeToken<Collection<Athlete>>() {
                             }.getType());
                     //Collections.sort((List<T>) fromJson);
-
+                    int place = 1;
                     for (Athlete a : fromJson) {
-                        response += "<tr>\n<td>" + a.getName()+ "</td>\n<td>" + a.getTime() + "</td>\n</tr>\n";
+                        response += "<tr>\n<td>" + place++ + "</td>\n<td>" + a.getNumber() + 
+                        		"</td>\n<td>" + a.getNumber()+ "</td>\n<td>" + a.getTime()+ "</td>\n</tr>\n";
                     }
                 }
             } catch (JsonSyntaxException e) {
