@@ -3,10 +3,10 @@ import java.lang.reflect.Array;
 import java.util.*;
 public class Timer {
 	//create arrays for channels 
-	public LinkedList runTimes;
-	public LinkedList grpRunTimes;
-	public LinkedList parGrpRunTimes;
-	private long grpStartTime;
+	public LinkedList runTimes;//Linked list used for storing the run times of the IND and PARIND modes
+	public LinkedList grpRunTimes;//Linked list used for storing the run times of the GRP mode
+	public LinkedList parGrpRunTimes;//Linked list used for storing the run times of the PARGRP mode
+	private long grpStartTime;//Used to retrieve the starting time for GRP mode 
 	
 	public Timer()
 	{
@@ -15,7 +15,7 @@ public class Timer {
 		runTimes.LastFinishTime = null;
 		runTimes.currentStart = runTimes.Start;
 		runTimes.currentFinish = runTimes.Start;
-		runTimes.trailer = runTimes.currentStart;
+		runTimes.trailer = runTimes.currentStart;//trailer is used to keep track of the racer that is next to finish
 		
 		grpRunTimes = new LinkedList();
 		grpRunTimes.Start = new Node();//dummy node
@@ -25,9 +25,12 @@ public class Timer {
 		parGrpRunTimes.Start = new Node();//dummy node
 		parGrpRunTimes.currentStart = parGrpRunTimes.Start;
 		parGrpRunTimes.currentFinish = parGrpRunTimes.currentStart;
-		parGrpRunTimes.findIndex =  parGrpRunTimes.currentStart;
+		parGrpRunTimes.findIndex =  parGrpRunTimes.currentStart;//findIndex finds the position in the linked list based on which channel that was selected to finish
 	}
 	
+	/*
+	 * Returns the run times if every racer in order for IND and PARIND modes
+	 */
 	public String[] getRunTimes()
 	{
 		Node currentRacer = new Node();
@@ -58,6 +61,10 @@ public class Timer {
 		return runners;
 	}
 	
+	
+	/*
+	 * Returns the length of time for the entire race
+	 */
 	public String entireRaceTime()
 	{
 		long runTime = runTimes.LastFinishTime.EndTime - runTimes.Start.nextLink.StartTime;
@@ -72,6 +79,10 @@ public class Timer {
 		return (hours + ":" + min + ":" + sec + "." + hundreths);
 	}
 	
+	
+	/*
+	 * Sets the start time for runners in the PARGRP mode
+	 */
 	public void ParGRPStartTime(int numRunners)
 	{
 		long startingTime = System.currentTimeMillis();//set start time of each runner to current system time
@@ -84,6 +95,10 @@ public class Timer {
 		}
 	}
 	
+	
+	/*
+	 * Sets the finish time for runners in the PARGRP mode
+	 */
 	public String ParGRPFinish(int index)
 	{
 		Node finish = parGrpRunTimes.getRunner(parGrpRunTimes, index);
@@ -91,6 +106,10 @@ public class Timer {
 		return convert(finish);
 	}
 	
+	
+	/*
+	 * Sets the start time for runners in the GRP mode
+	 */
 	public void GRPStartTime()
 	{
 		if(grpRunTimes.currentStart == null)
@@ -105,6 +124,10 @@ public class Timer {
 		}
 	}
 	
+	
+	/*
+	 * Sets the finish time for runners in the GRP mode
+	 */
 	public String GRPFinishTime()
 	{
 		if(grpRunTimes.size == 1)
@@ -131,6 +154,10 @@ public class Timer {
 		return "";
 	}
 	
+	
+	/*
+	 * Sets the start time for runners in the IND and PARIND modes
+	 */
 	public void start()
 	{
 		Node start = new Node();
@@ -140,6 +167,10 @@ public class Timer {
 		runTimes.size++;
 	}
 	
+	
+	/*
+	 * Sets the finish time for runners in the IND and PARIND modes
+	 */
 	public String finish()
 	{
 		runTimes.currentFinish.nextLink.EndTime = System.currentTimeMillis();
@@ -149,6 +180,11 @@ public class Timer {
 		return convert(runTimes.currentFinish);
 	}
 	
+	
+	/*
+	 * Skips over the racer next to finish so that a time won't get set
+	 * for that racer. When a time is not set for a racer, they will DNF
+	 */
 	public void DNF()
 	{
 		runTimes.currentFinish = runTimes.currentFinish.nextLink;
@@ -156,6 +192,11 @@ public class Timer {
 		runTimes.trailer = runTimes.currentFinish;
 	}
 	
+	
+	/*
+	 * Cancels the racer next to finish start time and puts them 
+	 * back in the queue to race for the IND and PARIND modes
+	 */
 	public void cancel()
 	{
 		if(runTimes.trailer.nextLink.nextLink != null)
@@ -170,6 +211,12 @@ public class Timer {
 		runTimes.size--;
 	}
 	
+	
+	/*
+	 * Used for converting the System time that is given in milliseconds
+	 * into a string that will have hours, minutes, seconds as the runners
+	 * time
+	 */
 	public String convert(Node currentRacer)
 	{
 		long runTime = 0;
@@ -185,13 +232,17 @@ public class Timer {
 		return (hours + ":" + min + ":" + sec + "." + hundreths);
 	}
 	
+	/*
+	 * Defined fields for our nodes start and finish times in the linked list, and an edge nextLink
+	 * to move from the first runner to start, to the last runner to start
+	 */
 	      class Node
 	      {
 	            public long StartTime;
 	            public long EndTime;
 	            private Node nextLink;
 	           
-	            //construct
+	            //constructor
 	            public Node(){
 	                  nextLink = null;
 	                  StartTime=0;
@@ -221,13 +272,17 @@ public class Timer {
 	            }
 	      }//end Node class
 	     
+	      
+	     /*
+	  	 * Defined this linked list to help with keeping track of runners. 
+	  	 */
 	      class LinkedList{
-	            Node Start;
-	            Node LastFinishTime;
-	            Node currentStart;
-	            Node currentFinish;
-	            Node trailer;
-	            Node findIndex;
+	            Node Start;//start of the linked list
+	            Node LastFinishTime;//pointer to the last runner that finished
+	            Node currentStart;//pointer to the last runner that started racing
+	            Node currentFinish;//pointer to the next runner that will finish
+	            Node trailer;//used to keep track of the runners that started before all currently racing runners in IND and PARIND
+	            Node findIndex;//used for PARGRP mode to tell which node should be given an end time based on which channel was pushed
 	            int size;
 	           
 	            public LinkedList(){
@@ -242,6 +297,11 @@ public class Timer {
 	                  return Start==null;
 	            }
 	            
+	            
+	            /*
+	        	 * Used for finding the node in the linked list to set a finish time for a runner in
+	        	 * PARGRP mode based on which channel was selected to finish
+	        	 */
 	            public Node getRunner(LinkedList r,int i)
 	            {
 	            	r.findIndex = r.Start;
