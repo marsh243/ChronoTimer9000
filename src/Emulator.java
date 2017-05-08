@@ -432,26 +432,6 @@ public class Emulator extends JFrame {
 		});
 		Channels.add(Ch1);
 		
-		JList Ch2 = new JList(sensors);
-		Ch2.setSelectedValue(sensors[0], false);
-		Ch2.setName("Ch2");
-		Ch2.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(!e.getValueIsAdjusting()){
-					if(Ch2.getSelectedIndex()==0){
-						ct.writeln(Ch2.getName()+" "+"Sensor disconnected.");
-					}
-					else{
-						ct.writeln(Ch2.getName()+" "+Ch2.getSelectedValue()+" connected.");
-					}
-				}
-			}
-			
-		});
-		Channels.add(Ch2);
-		
 		JList Ch3 = new JList(sensors);
 		Ch3.setSelectedValue(sensors[0], false);
 		Ch3.setName("Ch3");
@@ -471,26 +451,6 @@ public class Emulator extends JFrame {
 			
 		});
 		Channels.add(Ch3);
-		
-		JList Ch4 = new JList(sensors);
-		Ch4.setSelectedValue(sensors[0], false);
-		Ch4.setName("Ch4");
-		Ch4.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(!e.getValueIsAdjusting()){
-					if(Ch4.getSelectedIndex()==0){
-						ct.writeln(Ch4.getName()+" "+"Sensor disconnected.");
-					}
-					else{
-						ct.writeln(Ch4.getName()+" "+Ch4.getSelectedValue()+" connected.");
-					}
-				}
-			}
-			
-		});
-		Channels.add(Ch4);
 		
 		JList Ch5 = new JList(sensors);
 		Ch5.setSelectedValue(sensors[0], false);
@@ -512,26 +472,6 @@ public class Emulator extends JFrame {
 		});
 		Channels.add(Ch5);
 		
-		JList Ch6 = new JList(sensors);
-		Ch6.setSelectedValue(sensors[0], false);
-		Ch6.setName("Ch6");
-		Ch6.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(!e.getValueIsAdjusting()){
-					if(Ch6.getSelectedIndex()==0){
-						ct.writeln(Ch6.getName()+" "+"Sensor disconnected.");
-					}
-					else{
-						ct.writeln(Ch6.getName()+" "+Ch6.getSelectedValue()+" connected.");
-					}
-				}
-			}
-			
-		});
-		Channels.add(Ch6);
-		
 		JList Ch7 = new JList(sensors);
 		Ch7.setSelectedValue(sensors[0], false);
 		Ch7.setName("Ch7");
@@ -551,6 +491,66 @@ public class Emulator extends JFrame {
 			
 		});
 		Channels.add(Ch7);
+		
+		JList Ch2 = new JList(sensors);
+		Ch2.setSelectedValue(sensors[0], false);
+		Ch2.setName("Ch2");
+		Ch2.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch2.getSelectedIndex()==0){
+						ct.writeln(Ch2.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch2.getName()+" "+Ch2.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch2);
+		
+		JList Ch4 = new JList(sensors);
+		Ch4.setSelectedValue(sensors[0], false);
+		Ch4.setName("Ch4");
+		Ch4.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch4.getSelectedIndex()==0){
+						ct.writeln(Ch4.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch4.getName()+" "+Ch4.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch4);
+		
+		JList Ch6 = new JList(sensors);
+		Ch6.setSelectedValue(sensors[0], false);
+		Ch6.setName("Ch6");
+		Ch6.addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()){
+					if(Ch6.getSelectedIndex()==0){
+						ct.writeln(Ch6.getName()+" "+"Sensor disconnected.");
+					}
+					else{
+						ct.writeln(Ch6.getName()+" "+Ch6.getSelectedValue()+" connected.");
+					}
+				}
+			}
+			
+		});
+		Channels.add(Ch6);
 		
 		JList Ch8 = new JList(sensors);
 		Ch8.setSelectedValue(sensors[0], false);
@@ -573,11 +573,92 @@ public class Emulator extends JFrame {
 		Channels.add(Ch8);
 		
 		JButton btnCh1Strigg = new JButton("Ch1:trigger");
+		btnCh1Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch1.isSelectedIndex(0)) ct.trigger(1);
+			}
+			
+		});
 		Channels.add(btnCh1Strigg);
 		
+		JButton btnCh3Strigg = new JButton("Ch3:trigger");
+		btnCh3Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch3.isSelectedIndex(0)) ct.trigger(3);
+			}
+			
+		});
+		Channels.add(btnCh3Strigg);
+		
+		JButton btnCh5Strigg = new JButton("Ch5:trigger");
+		btnCh5Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch5.isSelectedIndex(0)) ct.trigger(5);
+			}
+			
+		});
+		Channels.add(btnCh5Strigg);
+		
+		JButton btnCh7Strigg = new JButton("Ch7:trigger");
+		btnCh7Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch7.isSelectedIndex(0)) ct.trigger(7);
+			}
+			
+		});
+		Channels.add(btnCh7Strigg);
+		
 		JButton btnCh2Strigg = new JButton("Ch2:trigger");
+		btnCh2Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch2.isSelectedIndex(0)) ct.trigger(2);
+			}
+			
+		});
 		Channels.add(btnCh2Strigg);
 		
+		JButton btnCh4Strigg = new JButton("Ch4:trigger");
+		btnCh4Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch4.isSelectedIndex(0)) ct.trigger(4);
+			}
+			
+		});
+		Channels.add(btnCh4Strigg);
+		
+		JButton btnCh6Strigg = new JButton("Ch6:trigger");
+		btnCh6Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch6.isSelectedIndex(0)) ct.trigger(6);
+			}
+			
+		});
+		Channels.add(btnCh6Strigg);
+		
+		JButton btnCh8Strigg = new JButton("Ch8:trigger");
+		btnCh8Strigg.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(!Ch8.isSelectedIndex(0)) ct.trigger(8);
+			}
+			
+		});
+		Channels.add(btnCh8Strigg);
 		
 		eventLog = new JTextArea("Screen:\n", 3, 0);
 		eventLog.setLineWrap(true);
