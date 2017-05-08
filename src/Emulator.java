@@ -40,7 +40,6 @@ public class Emulator extends JFrame {
 	public JScrollPane scrollpane;
 	public JTextArea eventLog;
 	public JTextArea printer;
-	int scrollable = eventLog.getScrollableUnitIncrement(scrollpane.getVisibleRect(), SwingConstants.VERTICAL, 1);
 	
 	// Checkboxes to enable/disable the triggers
 	public JCheckBox cbxTrig1;
@@ -379,25 +378,9 @@ public class Emulator extends JFrame {
 		arrows.setLayout(new BorderLayout(0, 0));
 		
 		JButton button = new JButton("^");
-		button.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				scrollpane.getVerticalScrollBar().getModel().setValue(scrollpane.getVerticalScrollBar().getModel().getValue()-scrollable);
-			}
-			
-		});
 		arrows.add(button, BorderLayout.NORTH);
 		
 		JButton btnV = new JButton("v");
-		btnV.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				scrollpane.getVerticalScrollBar().getModel().setValue(scrollpane.getVerticalScrollBar().getModel().getValue()+scrollable);
-			}
-			
-		});
 		arrows.add(btnV, BorderLayout.SOUTH);
 		
 		JButton button_1 = new JButton("<");
@@ -427,7 +410,7 @@ public class Emulator extends JFrame {
 		
 		JPanel Channels = new JPanel();
 		contentPane.add(Channels, BorderLayout.SOUTH);
-		Channels.setLayout(new GridLayout(2, 4, 0, 0));
+		Channels.setLayout(new GridLayout(4, 4, 0, 0));
 		
 		JList Ch1 = new JList(sensors);
 		Ch1.setSelectedValue(sensors[0], false);
@@ -588,6 +571,12 @@ public class Emulator extends JFrame {
 			
 		});
 		Channels.add(Ch8);
+		
+		JButton btnCh1Strigg = new JButton("Ch1:trigger");
+		Channels.add(btnCh1Strigg);
+		
+		JButton btnCh2Strigg = new JButton("Ch2:trigger");
+		Channels.add(btnCh2Strigg);
 		
 		
 		eventLog = new JTextArea("Screen:\n", 3, 0);
