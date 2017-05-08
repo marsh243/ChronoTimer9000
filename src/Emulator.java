@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -39,7 +38,6 @@ public class Emulator extends JFrame {
 	
 	// Text areas for the main output and printer
 	public JScrollPane scrollpane;
-	public JScrollBar bar = scrollpane.getVerticalScrollBar();
 	public JTextArea eventLog;
 	public JTextArea printer;
 	int scrollable = eventLog.getScrollableUnitIncrement(scrollpane.getVisibleRect(), SwingConstants.VERTICAL, 1);
