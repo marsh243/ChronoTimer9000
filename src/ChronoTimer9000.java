@@ -44,11 +44,12 @@ public class ChronoTimer9000 {
 	private USBdevice usb; // USB Device
 	private boolean printPower; // Printer power
 	private Emulator frame; // The GUI - Allows things like printing
-	private String[] screens; 
-	private String[] ParGrpDisplayRunners;
-	private int screen;
-	public ResultsClient client;
+	private String[] screens; // The two potential screens to be displayed on the chronotimer (race display and commands)
+	private String[] ParGrpDisplayRunners; // 
+	private int screen; // The index of the current screen
+	public ResultsClient client; // Access to the server
 	
+	/*Constructor*/
 	public ChronoTimer9000(Emulator frame)
 	{
 		this.power = false;
@@ -115,6 +116,7 @@ public class ChronoTimer9000 {
 		t.start();
 	}
 	
+	/*Turn Chronotimer on and off resetting fields as needed*/
 	public void power()
 	{	
 		if(power == true)
@@ -170,6 +172,7 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*Cycle through modes*/
 	public void setMode()
 	{
 		if (power){
@@ -186,12 +189,14 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*Toggles a channel on or off*/
 	public void toggle(int i)
 	{
 		if (power)
 			channels[i-1] = !channels[i-1];
 	}
 	
+	/*Handles trigger input -  i is */
 	public void trigger(int i)
 	{
 		if(channels[i-1])
