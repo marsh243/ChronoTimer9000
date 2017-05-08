@@ -76,7 +76,7 @@ public class Emulator extends JFrame {
 		// Types of sensors
 		String[] sensors = {"none", "button", "trip", "photogate"};
 		
-		
+		//main window
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
@@ -86,6 +86,8 @@ public class Emulator extends JFrame {
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel);
+		
+		//holds the power, function, swap, and printpower buttons
 		JPanel powerfunctions = new JPanel();
 		panel.add(powerfunctions);
 		powerfunctions.setLayout(new GridLayout(4, 1, 0, 0));
@@ -135,6 +137,7 @@ public class Emulator extends JFrame {
 		});
 		powerfunctions.add(btnPrintpower);
 		
+		//panel that contains the start, finish, and enable disable for each channel
 		JPanel triggers = new JPanel();
 		panel.add(triggers);
 		triggers.setLayout(new GridLayout(6, 4, 0, 0));
@@ -372,7 +375,6 @@ public class Emulator extends JFrame {
 		textField_7.setColumns(1);
 		
 		/*Setup arrows*/
-		
 		JPanel arrows = new JPanel();
 		panel.add(arrows);
 		arrows.setLayout(new BorderLayout(0, 0));
@@ -572,6 +574,8 @@ public class Emulator extends JFrame {
 		});
 		Channels.add(Ch8);
 		
+		
+		//buttons that emulate a signal from a sensor on that channel
 		JButton btnCh1Strigg = new JButton("Ch1:trigger");
 		btnCh1Strigg.addActionListener(new ActionListener(){
 
