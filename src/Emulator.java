@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -11,6 +12,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import java.awt.GridLayout;
 import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
@@ -35,8 +38,11 @@ public class Emulator extends JFrame {
 	public JTextField textField_7;
 	
 	// Text areas for the main output and printer
+	public JScrollPane scrollpane;
+	public JScrollBar bar = scrollpane.getVerticalScrollBar();
 	public JTextArea eventLog;
 	public JTextArea printer;
+	int scrollable = eventLog.getScrollableUnitIncrement(scrollpane.getVisibleRect(), SwingConstants.VERTICAL, 1);
 	
 	// Checkboxes to enable/disable the triggers
 	public JCheckBox cbxTrig1;
@@ -375,9 +381,25 @@ public class Emulator extends JFrame {
 		arrows.setLayout(new BorderLayout(0, 0));
 		
 		JButton button = new JButton("^");
+		button.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				scrollpane.getVerticalScrollBar().getModel().setValue(scrollpane.getVerticalScrollBar().getModel().getValue()-scrollable);
+			}
+			
+		});
 		arrows.add(button, BorderLayout.NORTH);
 		
 		JButton btnV = new JButton("v");
+		btnV.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				scrollpane.getVerticalScrollBar().getModel().setValue(scrollpane.getVerticalScrollBar().getModel().getValue()+scrollable);
+			}
+			
+		});
 		arrows.add(btnV, BorderLayout.SOUTH);
 		
 		JButton button_1 = new JButton("<");
@@ -576,9 +598,9 @@ public class Emulator extends JFrame {
 		eventLog.setBackground(Color.BLACK);
 		eventLog.setDisabledTextColor(Color.GREEN);
 		eventLog.setEnabled(false);
-		JScrollPane scrollPane = new JScrollPane(eventLog);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		contentPane.add(scrollPane);
+		scrollpane = new JScrollPane(eventLog);
+		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPane.add(scrollpane);
 		
 		/*Create a a number pad with buttons*/
 		
