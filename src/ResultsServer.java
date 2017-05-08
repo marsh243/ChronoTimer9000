@@ -71,7 +71,7 @@ public class ResultsServer {
                     int place = 1;
                     for (Athlete a : fromJson) {
                         response += "<tr>\n<td>" + place++ + "</td>\n<td>" + a.getNumber() + 
-                        		"</td>\n<td>" + a.getNumber()+ "</td>\n<td>" + a.getTime()+ "</td>\n</tr>\n";
+                        		"</td>\n<td>" + a.getName()+ "</td>\n<td>" + a.getTime()+ "</td>\n</tr>\n";
                     }
                 }
             } catch (JsonSyntaxException e) {

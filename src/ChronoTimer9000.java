@@ -196,7 +196,7 @@ public class ChronoTimer9000 {
 			channels[i-1] = !channels[i-1];
 	}
 	
-	/*Handles trigger input -  i is */
+	/*Handles trigger input -  i is 1 to 8 representing channel*/
 	public void trigger(int i)
 	{
 		if(channels[i-1])
@@ -205,6 +205,7 @@ public class ChronoTimer9000 {
 			{
 				if(mode == Modes.IND)
 				{
+					// Start new racer
 					if ((i == 1) && numStarted < runners.size())
 					{
 						if (numStarted == 0)
@@ -212,6 +213,7 @@ public class ChronoTimer9000 {
 						numStarted++;
 						indtimer.start();
 					}
+					// Finish racer if one is currently racing 
 					else if ((i == 2) && numFinished < runners.size() && numStarted > numFinished)
 					{
 						numFinished++;
@@ -224,59 +226,64 @@ public class ChronoTimer9000 {
 				}
 				else if(mode == Modes.PARIND)
 				{
-						if ((i == 1) && numStarted < numRunners)
-						{
-							if (numStarted == 0)
-								println("\nParallel Individual Race:");
-							
+					// Start channel 1 racer
+					if ((i == 1) && numStarted < numRunners)
+					{
+						if (numStarted == 0)
+							println("\nParallel Individual Race:");
+						
+						numStarted++;
+						currentlyRunning.add(runners.get(runnerIndex));
+						currentlyRunning1.add(runners.get(runnerIndex));
+						parTimer1.start();
+						runnerIndex = findNextRunner(runners.get(runnerIndex));
+						displayRunners.remove(0);
+					}
+					// Start channel 3 racer
+					else if ((i == 3) && numStarted < numRunners)
+					{
+						if (numStarted == 0)
+							println("\nParallel Individual Race:");
 							numStarted++;
-							currentlyRunning.add(runners.get(runnerIndex));
-							currentlyRunning1.add(runners.get(runnerIndex));
-							parTimer1.start();
-							runnerIndex = findNextRunner(runners.get(runnerIndex));
-							displayRunners.remove(0);
-						}
-						else if ((i == 3) && numStarted < numRunners)
+						currentlyRunning.add(runners.get(runnerIndex));
+						currentlyRunning2.add(runners.get(runnerIndex));
+						parTimer2.start();
+						runnerIndex = findNextRunner(runners.get(runnerIndex));	
+						displayRunners.remove(0);
+					}
+					// Finish channel 1 racer (on channel 2)
+					//If there is more than one racer active, the finish event is associated with racers in a FIFO basis.
+					else if(i == 2 && numFinished < numRunners)
+					{
+						numFinished++;
+						if(currentlyRunning.contains(currentlyRunning1.getFirst()))
 						{
-							if (numStarted == 0)
-								println("\nParallel Individual Race:");
-								numStarted++;
-							currentlyRunning.add(runners.get(runnerIndex));
-							currentlyRunning2.add(runners.get(runnerIndex));
-							parTimer2.start();
-							runnerIndex = findNextRunner(runners.get(runnerIndex));	
-							displayRunners.remove(0);
+							currentlyRunning.remove(currentlyRunning1.getFirst());
 						}
-						//If there is more than one racer active, the finish event is associated with racers in a FIFO basis.
-						else if(i == 2 && numFinished < numRunners)
+						finishedRunners.add(currentlyRunning1.removeFirst());
+						finishedRunners.getLast().setTime(parTimer1.finish());
+						eventLog.add(finishedRunners.getLast().getTime());
+						println((" " +finishedRunners.getLast().getNumber() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
+						displayToServer.addLast(finishedRunners.getLast());
+					}
+					// Finish channel 3 racer (on channel 4)
+					else if(i == 4 && numFinished < numRunners)
+					{
+						numFinished++;
+						if(currentlyRunning.contains(currentlyRunning2.getFirst()))
 						{
-							numFinished++;
-							if(currentlyRunning.contains(currentlyRunning1.getFirst()))
-							{
-								currentlyRunning.remove(currentlyRunning1.getFirst());
-							}
-							finishedRunners.add(currentlyRunning1.removeFirst());
-							finishedRunners.getLast().setTime(parTimer1.finish());
-							eventLog.add(finishedRunners.getLast().getTime());
-							println((" " +finishedRunners.getLast().getNumber() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
-							displayToServer.addLast(finishedRunners.getLast());
+							currentlyRunning.remove(currentlyRunning2.getFirst());
 						}
-						else if(i == 4 && numFinished < numRunners)
-						{
-							numFinished++;
-							if(currentlyRunning.contains(currentlyRunning2.getFirst()))
-							{
-								currentlyRunning.remove(currentlyRunning2.getFirst());
-							}
-							finishedRunners.add(currentlyRunning2.removeFirst());
-							finishedRunners.getLast().setTime(parTimer2.finish());
-							eventLog.add(finishedRunners.getLast().getTime());
-							println((" " +finishedRunners.getLast().getNumber() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
-							displayToServer.addLast(finishedRunners.getLast());
-						}
+						finishedRunners.add(currentlyRunning2.removeFirst());
+						finishedRunners.getLast().setTime(parTimer2.finish());
+						eventLog.add(finishedRunners.getLast().getTime());
+						println((" " +finishedRunners.getLast().getNumber() + ": " + finishedRunners.getLast().getTime()).replaceAll("\n", ""));
+						displayToServer.addLast(finishedRunners.getLast());
+					}
 				}
 				else if(mode == Modes.GRP)
 				{
+					// Start group race
 					if(i == 1 && !grpStarted)
 					{
 						GrpTimer.GRPStartTime();
@@ -284,8 +291,9 @@ public class ChronoTimer9000 {
 					}
 					else if(i == 2)
 					{
+						// Finish a racer in group race
 						if(grpStarted)
-						{
+						{	
 							if(grpRunnersFinished >= numRunners)
 							{
 								if(numRunners < 10)
@@ -305,6 +313,7 @@ public class ChronoTimer9000 {
 								println((" " + GrpRunners.getLast().getNumber() + ": " + GrpRunners.getLast().getTime()).replaceAll("\n", ""));
 								displayToServer.addLast(GrpRunners.getLast());
 							}
+							// Add runners as needed - numbers are not specified in the beginning of the race.
 							else
 							{
 								GrpRunners.add(runners.get(grpRunnersFinished));
@@ -321,6 +330,7 @@ public class ChronoTimer9000 {
 				}
 				else if(mode == Modes.PARGRP)
 				{
+					// Sart parallel group race
 					if(i == 1)
 					{
 						if(numRunners >= 1 && parGrpStarted == false)
@@ -340,7 +350,9 @@ public class ChronoTimer9000 {
 							//runner in index 0 is assigned to this channel
 							//start race
 						}
-						else if(numRunners >= 1 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")//after race is started, racer's time is ended on this channel
+						// Trigger finish for racer 1
+						//after race is started, racer's time is ended on this channel
+						else if(numRunners >= 1 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
 						{
 							
 							ParGrpRunners.get(i - 1).setTime(ParGrpTimer.ParGRPFinish(i));
@@ -351,6 +363,7 @@ public class ChronoTimer9000 {
 							displayToServer.addLast(ParGrpRunners.get(i - 1));
 						}
 					}
+					// Trigger finish for racers 2 - 8. 
 					else if(i == 2)
 					{
 						if(numRunners >= 2 && parGrpStarted == true && displayRunners.get(i -1).getTime() == "")
@@ -443,6 +456,7 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*DNFs racers - */
 	public void dnf()
 	{
 		if (power && raceNotEnded && numFinished < runners.size() && numStarted > numFinished && mode == Modes.IND)
@@ -625,24 +639,24 @@ public class ChronoTimer9000 {
 		if (power)
 		{
 			if (printPower)
+			{
 				writeln("Turning off printer...");
+				printPower = false;
+			}
 			else
+			{
 				writeln("Turning on printer...");
-			this.printPower = !this.printPower;
+				printPower = true;
+			}
 		}
 	}
 	
 	public void printResults()
 	{
-		if (power)
+		if (power && printPower)
 		{
 			String printString = "";
-			if (!printPower)
-			{
-				writeln("Switch on printer to use.");
-				return;
-			}
-			else if(mode == Modes.IND)
+			if(mode == Modes.IND)
 			{
 				for(int i=0; i<eventLog.size(); i++){
 					printString += (runners.get(i).getNumber() + " ");
@@ -930,7 +944,8 @@ public class ChronoTimer9000 {
 	// Writes a line with the printer.
 	private void println(String message)
 	{
-		frame.printer.setText(frame.printer.getText() + message + "\n");
+		if (power && printPower)
+			frame.printer.setText(frame.printer.getText() + message + "\n");
 	}
 
 	// Updates the event log in the emulator with the info on the current screen
