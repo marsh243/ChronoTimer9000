@@ -35,7 +35,7 @@ public class ResultsServerProxy {
             out.writeBytes(content);
             out.flush();
             out.close();
-          //System.out.println("Done sent to server");
+            //System.out.println("Done sent to server");
 
             InputStreamReader inputStr = new InputStreamReader(conn.getInputStream());
 
@@ -48,7 +48,6 @@ public class ResultsServerProxy {
             while ((nextChar = inputStr.read()) > -1) {
                 sb = sb.append((char) nextChar);
             }
-            //System.out.println("Server: " + sb);
 
         } catch (Exception e) {
             System.out.print("Connection to server failed.");

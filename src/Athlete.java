@@ -5,7 +5,7 @@ public class Athlete implements Comparable<Object>{
 	private String number;
 	String time;
 	
-	private Map<String, String> names;
+	private Map<String, String> names; // Hard coded names to relate to bib numbers
 	
 	public Athlete(String name, String time){
 		this.number = name;
@@ -42,8 +42,6 @@ public class Athlete implements Comparable<Object>{
 	}
 	
 	public String getTime(){
-//		if (this.time == "")
-//			return "DNF";
 		return this.time;
 	}
 	
@@ -52,6 +50,7 @@ public class Athlete implements Comparable<Object>{
 		return this.time;
 	}
 	
+	// Returns a name if the number is knows. Else returns blank string.
 	public String getName()
 	{
 		if (names.containsKey(number))
@@ -64,9 +63,13 @@ public class Athlete implements Comparable<Object>{
 	}
 	
 	public String toString(){
-		return (number+"\n"+time);
+		if (time != "")
+			return (number+": "+time+"\n");
+		else
+			return number + "\n";
 	}
 	
+	/*The comparator to sort by time*/
 	@Override
 	public int compareTo(Object o) {
 		if (o instanceof Athlete) {

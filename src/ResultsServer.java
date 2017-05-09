@@ -44,6 +44,7 @@ public class ResultsServer {
              * HTML is generated here. 
              */
 
+        	// Read css file
             String style = "";
             BufferedReader br = new BufferedReader(new FileReader("style.css"));
             while(br.ready())
@@ -51,13 +52,15 @@ public class ResultsServer {
                 style += br.readLine();
             }
             br.close();
-
-            //<div class="floating-box">
+            
             String response = "<!DOCTYPE html><html><head><style>" + style + "</style></head>";
+            
             //create a table
             response += "\n<table>\n<tr>\n<th>Place:<br></th>\n<th>Bib Number:<br></th>\n<th>Name:<br></th>\n<th>Time:<br></th>\n"; 
 
             Gson g = new Gson();
+            
+            
             // set up the header
             System.out.println(response);
             try {
@@ -68,7 +71,9 @@ public class ResultsServer {
                             new TypeToken<Collection<Athlete>>() {
                             }.getType());
                     Collections.sort((ArrayList<Athlete>) fromJson);
-                    int place = 1;
+                    
+                    int place = 1; // Place is incremented. Sorting ensures place is correct.
+                    //Insert lines to table
                     for (Athlete a : fromJson) {
                         response += "<tr>\n<td>" + place++ + "</td>\n<td>" + a.getNumber() + 
                         		"</td>\n<td>" + a.getName()+ "</td>\n<td>" + a.getTime()+ "</td>\n</tr>\n";
@@ -111,7 +116,7 @@ public class ResultsServer {
             // create our response String to use in other handler
             sharedResponse = sharedResponse+sb.toString();
 
-            // respond to the POST with ROGER
+            // respond to the POST
             String postResponse = "Racer Received ";
 
             System.out.println("response: " + sharedResponse);

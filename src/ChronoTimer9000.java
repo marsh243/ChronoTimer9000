@@ -330,7 +330,7 @@ public class ChronoTimer9000 {
 				}
 				else if(mode == Modes.PARGRP)
 				{
-					// Sart parallel group race
+					// Start parallel group race
 					if(i == 1)
 					{
 						if(numRunners >= 1 && parGrpStarted == false)
@@ -456,9 +456,10 @@ public class ChronoTimer9000 {
 		}
 	}
 	
-	/*DNFs racers - */
+	/*DNFs racers - Similar to finish but with DNF as end time*/
 	public void dnf()
 	{
+		// DNF IND racer
 		if (power && raceNotEnded && numFinished < runners.size() && numStarted > numFinished && mode == Modes.IND)
 		{
 			numFinished++;
@@ -468,6 +469,7 @@ public class ChronoTimer9000 {
 			displayToServer.getLast().setTime(" DNF");
 			println((runners.get(numFinished - 1) + "").replaceAll("\n", ""));
 		}
+		// DNF racers in PARIND
 		else if(power && raceNotEnded && numFinished < numRunners && mode == Modes.PARIND)
 		{
 			if(!currentlyRunning1.isEmpty() && currentlyRunning.contains(currentlyRunning1.getFirst()))
@@ -491,6 +493,7 @@ public class ChronoTimer9000 {
 				println(finishedRunners.getLast() + "");
 			}
 		}
+		// DNF racer - explicit number or otherwise - in GRP
 		else if(power && raceNotEnded && mode == Modes.GRP)
 		{
 			if(grpStarted == true)
@@ -525,6 +528,7 @@ public class ChronoTimer9000 {
 				}
 			}
 		}
+		// DNF racer in PARGRP
 		else if(power && raceNotEnded && mode == Modes.PARGRP)
 		{
 			for(int i = 0; i < displayRunners.size(); i++)
@@ -538,7 +542,8 @@ public class ChronoTimer9000 {
 			}
 		}
 	}
-	
+
+	/*Cancel current race and reset data*/
 	public void cancel()
 	{
 		if(power && raceNotEnded && mode == Modes.IND)
@@ -577,6 +582,7 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*Create a new Athlete and add to the list of racers*/
 	public void addRacer(String str)
 	{
 		if(raceNotEnded && power)
@@ -588,6 +594,7 @@ public class ChronoTimer9000 {
 		
 	}
 	
+	/*Initializes (or recreates) lists of current racers.*/
 	public void newRun()
 	{
 		if (power)
@@ -596,10 +603,12 @@ public class ChronoTimer9000 {
 			this.currentlyRunning1 = new LinkedList<Athlete>();
 			this.currentlyRunning2 = new LinkedList<Athlete>();
 			this.raceNotEnded = true;
-			runNumber++;
+			runNumber++; // For USB saving
 		}
 	}
 	
+	/*Ends the current run. Unfinished racers for GRP and PARGRP get DNF.
+	 * For ind and parind modes, unfinished racers are left as is.*/
 	public LinkedList<Athlete> endRun()
 	{
 		if (power && raceNotEnded)
@@ -627,14 +636,16 @@ public class ChronoTimer9000 {
 				runners.get(i).setTime(eventLog.get(i));
 			}
 			
+			// Save results and end race
 			saveToUSB();
 			this.raceNotEnded = false;
 			
 			printResults();
 		}
-		return displayToServer;
+		return displayToServer; // The results to be posted to the server
 	}
 	
+	/*Toggle printer*/
 	public void printPower(){
 		if (power)
 		{
@@ -651,6 +662,7 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*Prints out contents of the event log to printer*/
 	public void printResults()
 	{
 		if (power && printPower)
@@ -688,6 +700,7 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*Saves JSON of relevant list of runners to usb*/
 	public void saveToUSB()
 	{
 		//create json
@@ -717,6 +730,7 @@ public class ChronoTimer9000 {
 		usb.save(json, name);
 	}
 	
+	/*Returns the first runner with no time*/
 	public int findNextRunner(Athlete x)
 	{
 		int y = -1;
@@ -735,6 +749,7 @@ public class ChronoTimer9000 {
 		return y;
 	}
 	
+	/*For IND only, swaps the next two racers to finish*/
 	public void swap(){
 		if(this.mode!=mode.IND) return;
 		Athlete newFirst, newSecond;
@@ -747,6 +762,7 @@ public class ChronoTimer9000 {
 		this.runners = newRunners;
 	}
 	
+	/*Changes ChronoTimer to default state. Other important fields cleared as mode is swapped.*/
 	public void reset()
 	{
 		if (power)
@@ -761,6 +777,7 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*Updates the current time*/
 	public void time (int h, int m, int s)
 	{
 		if (power)
@@ -769,19 +786,22 @@ public class ChronoTimer9000 {
 		}
 	}
 	
+	/*Ends current process - used for simulation*/
 	public void exit()
 	{
 		System.exit(0);
 	}
 
-	/**/
+	/*Changes the current screen to 0 or 1*/
 	public void setScreen(int screen)
 	{
-		this.screen = screen;
+		if (screen == 0 || screen == 1)
+			this.screen = screen;
 		updateScreen();
 	}
 	
-	/*Handles pressing of # key*/
+	/*Handles pressing of # key
+	 * DNF if a race is in progress, else used as enter key to add racer.*/
 	public void enter()
 	{
 		if (parGrpStarted || grpStarted || numStarted > 0)
@@ -815,7 +835,9 @@ public class ChronoTimer9000 {
 	 * Helper Methods section
 	 */
 	
-	// Updates the right display to the current standings.
+	/* Updates the right display to the current standings.
+	 * Racers are split into 3 groups: next to start, racing, and finished
+	 */
 	private void displayRace()
 	{
 		String standings = "";
@@ -896,7 +918,6 @@ public class ChronoTimer9000 {
 					for(int i = 0; i < displayRunners.size(); i++)
 					{
 						ParGrpDisplayRunners[i] = displayRunners.get(i).getNumber();
-						//String x = displayRunners.get(i).getTime();
 						if(displayRunners.get(i).parGRPGetTime() == "")
 						{
 							standings += ParGrpDisplayRunners[i]+"\n";//need to add to displayRunners when start is triggered
@@ -928,7 +949,6 @@ public class ChronoTimer9000 {
 			screens[0] += message;
 			updateScreen();
 		}
-		//frame.eventLog.setText(screens[0]);
 	}
 	
 	// Writes a string to the event log and ends the line
@@ -938,7 +958,6 @@ public class ChronoTimer9000 {
 			screens[0] += message + "\n";
 			updateScreen();
 		}
-		//frame.eventLog.setText(screens[0]);
 	}
 
 	// Writes a line with the printer.
